@@ -20,7 +20,6 @@ class CustomAppbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-      margin: EdgeInsets.only(right: suffixWidget == null ? 100.w : 0),
       height: 63.h,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,16 +63,15 @@ class CustomAppbar extends StatelessWidget {
               ),
             ),
           if (logo != null) logo!,
-          if (suffixWidget != null)
-            SizedBox(
-              width: 100.w,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  suffixWidget!,
-                ],
-              ),
+          SizedBox(
+            width: 100.w,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (suffixWidget != null) suffixWidget!,
+              ],
             ),
+          ),
         ],
       ),
     );

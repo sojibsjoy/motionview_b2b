@@ -4,6 +4,7 @@ import 'package:dogventurehq/ui/designs/custom_field.dart';
 import 'package:dogventurehq/ui/screens/home/searchbar_design.dart';
 import 'package:dogventurehq/ui/screens/products/product_item.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
+import 'package:dogventurehq/ui/widgets/row_btn.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dogventurehq/ui/screens/home/custom_appbar.dart';
 import 'package:flutter/material.dart';
@@ -43,46 +44,17 @@ class _ProductsScreenState extends State<ProductsScreen> {
               ),
               const Divider(),
               // products btn list
-              Container(
-                height: 35.h,
-                margin: EdgeInsets.only(left: 20.w, top: 10.h),
-                child: ListView.builder(
-                  itemCount: _btnTxts.length,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(right: 10.w),
-                      child: CustomBtn(
-                        onPressedFn: () {
-                          // _orderCon.getOrders(
-                          //   invoiceStatusID: _btnIds[index],
-                          //   supplierID: _supplierInfo.supplierId,
-                          // );
-                          setState(
-                            () => _selectedBtnIndex = index,
-                          );
-                        },
-                        btnTxt: _btnTxts[index],
-                        btnSize: Size(160.w, 35.h),
-                        txtSize: 12.sp,
-                        // btnBorderRadius: 10.r,
-                        btnColor:
-                            _selectedBtnIndex == index ? null : Colors.white,
-                        txtColor:
-                            _selectedBtnIndex == index ? null : Colors.black,
-                      ),
-                    );
-                  },
-                ),
+              RowItem(
+                itemList: _btnTxts,
+                onTapFn: (value) => setState(() => _selectedBtnIndex = value),
               ),
               addH(10.h),
-              // search bar
-              // product list
               _selectedBtnIndex != 4
                   ? Column(
                       children: [
+                        // search bar
                         const SearchbarDesign(),
+                        // product list
                         ListView.builder(
                           itemCount: 10,
                           shrinkWrap: true,

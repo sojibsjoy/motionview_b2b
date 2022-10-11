@@ -3,6 +3,7 @@ import 'package:dogventurehq/ui/screens/drawer.dart';
 import 'package:dogventurehq/ui/screens/login/login.dart';
 import 'package:dogventurehq/ui/screens/onboard/onboard.dart';
 import 'package:dogventurehq/ui/screens/products/products.dart';
+import 'package:dogventurehq/ui/screens/purchase/purchase.dart';
 import 'package:dogventurehq/ui/screens/splash/splash.dart';
 import 'package:get/route_manager.dart';
 
@@ -29,6 +30,10 @@ class AllRoutes {
     GetPage(
       name: ProductsScreen.routeName,
       page: () => const ProductsScreen(),
+    ),
+    GetPage(
+      name: PurchaseScreen.routeName,
+      page: () => const PurchaseScreen(),
     ),
   ];
 }
