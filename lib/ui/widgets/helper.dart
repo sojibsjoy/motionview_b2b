@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
 Widget addH(double h) => SizedBox(height: h);
-Widget addW(double w) => SizedBox(height: w);
+Widget addW(double w) => SizedBox(width: w);
 
 Widget errorScreen(details) => Material(
-      color: Colors.green.shade200,
+      color: const Color.fromRGBO(165, 214, 167, 1),
       child: Scaffold(
         backgroundColor: Colors.green.shade200,
         appBar: AppBar(
