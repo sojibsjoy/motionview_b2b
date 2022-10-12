@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dogventurehq/states/data/prefs.dart';
 import 'package:dogventurehq/ui/screens/login/login.dart';
+import 'package:dogventurehq/ui/screens/party_ledger/party_ledger.dart';
 import 'package:dogventurehq/ui/screens/products/products.dart';
 import 'package:dogventurehq/ui/screens/purchase/purchase.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
@@ -48,7 +49,7 @@ class _MenuScreenState extends State<MenuScreen> {
     () {},
     () => Get.toNamed(ProductsScreen.routeName),
     () => Get.toNamed(PurchaseScreen.routeName),
-    () {},
+    () => Get.toNamed(PartyLedger.routeName),
     () {},
     () {},
     () {},

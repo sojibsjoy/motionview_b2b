@@ -1,5 +1,4 @@
 import 'package:dogventurehq/constants/colors.dart';
-import 'package:dogventurehq/ui/designs/custom_field.dart';
 import 'package:dogventurehq/ui/screens/home/custom_appbar.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:dogventurehq/ui/widgets/row_btn.dart';
@@ -117,9 +116,6 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
                     child: Column(
                       children: [
                         DropdownDesign(title: 'Select Product'),
-                        Row(
-                          children: [CustomField(textCon: _, hintText: 'Qu')],
-                        )
                       ],
                     ),
                   ),

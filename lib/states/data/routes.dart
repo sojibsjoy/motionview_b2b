@@ -2,6 +2,7 @@ import 'package:dogventurehq/states/bindings/initial.dart';
 import 'package:dogventurehq/ui/screens/drawer.dart';
 import 'package:dogventurehq/ui/screens/login/login.dart';
 import 'package:dogventurehq/ui/screens/onboard/onboard.dart';
+import 'package:dogventurehq/ui/screens/party_ledger/party_ledger.dart';
 import 'package:dogventurehq/ui/screens/products/products.dart';
 import 'package:dogventurehq/ui/screens/purchase/purchase.dart';
 import 'package:dogventurehq/ui/screens/splash/splash.dart';
@@ -34,6 +35,10 @@ class AllRoutes {
     GetPage(
       name: PurchaseScreen.routeName,
       page: () => const PurchaseScreen(),
+    ),
+    GetPage(
+      name: PartyLedger.routeName,
+      page: () => const PartyLedger(),
     ),
   ];
 }
