@@ -53,6 +53,7 @@ class ConstantColors {
   // THEME COLORS
 
   static Color kAppColor = Colors.purple;
+
   /* Light Theme Colors */
   static Color kLightTheme = const Color(0xFFFFFFFF);
   static Color kLightTheme2 = const Color(0xFFE8EAED);
@@ -61,10 +62,12 @@ class ConstantColors {
   static Color kLightText = const Color(0xFF000000);
 
   /* Dark Theme Colors */
-
   static Color k0F1113 = const Color(0xFF0F1113);
   static Color k1F2225 = const Color(0xFF1F2225);
   static Color k292E32 = const Color(0xFF292E32);
   static Color k595E63 = const Color(0xFF595E63);
   static Color kC0C0C4 = const Color(0xFFC0C0C4);
+
+  // mv-b2b clrs
+  static Color k1D3557 = const Color(0xFF1D3557);
 }

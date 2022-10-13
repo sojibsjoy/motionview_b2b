@@ -32,14 +32,15 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomAppbar(
-              title: 'Purchase',
-            ),
+            // appbar
+            CustomAppbar(title: 'Purchase'),
+            // btn list
             RowItem(
               itemList: _btnTxts,
               onTapFn: (value) => setState(() => _selectedBtnIndex = value),
             ),
             addH(20.h),
+            // eligible campaign
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(

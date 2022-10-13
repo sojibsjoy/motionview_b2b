@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dogventurehq/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,8 +20,17 @@ class CustomAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       height: 63.h,
+      padding: EdgeInsets.symmetric(
+        horizontal: 20.w,
+        vertical: 10.h,
+      ),
+      decoration: BoxDecoration(
+        // color: Colors.grey.shade200,
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(20.r),
+        ),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -55,11 +65,15 @@ class CustomAppbar extends StatelessWidget {
             ),
           ),
           if (logo == null)
-            Text(
-              title ?? 'Appbar',
-              style: TextStyle(
-                fontSize: 24.sp,
-                fontWeight: FontWeight.w600,
+            SizedBox(
+              width: 185.w,
+              child: AutoSizeText(
+                title ?? 'Appbar',
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           if (logo != null) logo!,
