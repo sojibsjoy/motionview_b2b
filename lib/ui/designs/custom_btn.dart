@@ -45,7 +45,7 @@ class CustomBtn extends StatelessWidget {
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(btnBroderRadius ?? 5),
             side: BorderSide(
-              color: btnBorderColor ?? ConstantColors.primaryColor,
+              color: btnBorderColor ?? btnColor ?? ConstantColors.primaryColor,
               width: 1.0,
             ),
           ),

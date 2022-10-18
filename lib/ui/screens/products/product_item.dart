@@ -4,8 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({
+  Widget? w1;
+  Widget? w2;
+  Widget? w3;
+  Widget? suffixW;
+  ProductItem({
     Key? key,
+    this.w1,
+    this.w2,
+    this.w3,
+    this.suffixW,
   }) : super(key: key);
 
   @override
@@ -37,31 +45,49 @@ class ProductItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               // product name
-              const Text(
-                'Amazfit GTS 4 Mini Smartwatch',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
+              SizedBox(
+                width: 315.w,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Expanded(
+                      child: Text(
+                        'Amazfit GTS 4 Mini Smartwatch',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    if (suffixW != null) suffixW!
+                  ],
                 ),
               ),
               Row(
                 children: [
-                  const ProductPrice(
-                    prefix: 'DP',
-                    price: '40,890',
-                    txtClr: Colors.red,
-                  ),
+                  w1 != null
+                      ? w1!
+                      : const ProductPrice(
+                          prefix: 'DP',
+                          price: '40,890',
+                          txtClr: Colors.red,
+                        ),
                   addW(10.w),
-                  const ProductPrice(
-                    prefix: 'RP',
-                    price: '43,990',
-                    txtClr: Colors.blue,
-                  ),
+                  w2 != null
+                      ? w2!
+                      : const ProductPrice(
+                          prefix: 'RP',
+                          price: '43,990',
+                          txtClr: Colors.blue,
+                        ),
                   addW(10.w),
-                  const ProductPrice(
-                    prefix: 'MRP',
-                    price: '49,990',
-                    txtClr: Colors.green,
-                  ),
+                  w3 != null
+                      ? w3!
+                      : const ProductPrice(
+                          prefix: 'MRP',
+                          price: '49,990',
+                          txtClr: Colors.green,
+                        ),
                 ],
               )
             ],

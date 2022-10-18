@@ -1,10 +1,12 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dogventurehq/states/data/prefs.dart';
+import 'package:dogventurehq/ui/screens/campaign/campaign.dart';
 import 'package:dogventurehq/ui/screens/login/login.dart';
 import 'package:dogventurehq/ui/screens/party_ledger/party_ledger.dart';
 import 'package:dogventurehq/ui/screens/products/products.dart';
 import 'package:dogventurehq/ui/screens/purchase/purchase.dart';
-import 'package:dogventurehq/ui/screens/stock_management/stock.dart';
+import 'package:dogventurehq/ui/screens/return_management/return_management.dart';
+import 'package:dogventurehq/ui/screens/stock_management/stock_management.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,7 @@ class _MenuScreenState extends State<MenuScreen> {
     'assets/icons/purchase.png',
     'assets/icons/party_ledger.png',
     'assets/icons/stock.png',
+    'assets/icons/return.png',
     'assets/icons/money_receipt.png',
     'assets/icons/campaign.png',
   ];
@@ -40,6 +43,7 @@ class _MenuScreenState extends State<MenuScreen> {
     'Purchase',
     'Party Ledger',
     'Stock Management',
+    'Return Management',
     'Money Receipt',
     'Campaign',
   ];
@@ -52,8 +56,9 @@ class _MenuScreenState extends State<MenuScreen> {
     () => Get.toNamed(PurchaseScreen.routeName),
     () => Get.toNamed(PartyLedger.routeName),
     () => Get.toNamed(StockManagementScreen.routeName),
+    () => Get.toNamed(ReturnManagementScreen.routeName),
     () {},
-    () {},
+    () => Get.toNamed(CampaignScreen.routeName),
   ];
 
   @override

@@ -4,6 +4,7 @@ import 'package:dogventurehq/states/data/prefs.dart';
 import 'package:dogventurehq/ui/screens/drawer.dart';
 import 'package:dogventurehq/ui/screens/login/login.dart';
 import 'package:dogventurehq/ui/screens/onboard/page_body.dart';
+import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
@@ -118,12 +119,13 @@ class _OnboardScreenState extends State<OnboardScreen> {
                 InkWell(
                   onTap: _index != 2
                       ? () {
-                          _pageCon.animateToPage(page: _index);
                           setState(() => _index++);
+                          _pageCon.animateToPage(page: _index);
                           // _pageCon.jumpToPage(_index);
                         }
                       : navigating,
-                  child: Container(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
                     height: 60.h,
                     width: _index != 2 ? 60.h : 196.w,
                     decoration: BoxDecoration(
@@ -138,18 +140,28 @@ class _OnboardScreenState extends State<OnboardScreen> {
                               size: 28.sm,
                             ),
                           )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                        : Wrap(
+                            direction: Axis.vertical,
+                            alignment: WrapAlignment.center,
+                            runAlignment: WrapAlignment.center,
                             children: [
-                              Text(
-                                "Get Started",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 20.sp,
-                                ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: 125.w,
+                                    child: Text(
+                                      "Get Started",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 20.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(width: 17.w),
+                              addW(17.w),
                               Icon(
                                 Icons.arrow_forward,
                                 color: Colors.white,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class Methods {
   static void showSnackbar({
@@ -27,5 +28,9 @@ class Methods {
       margin: const EdgeInsets.only(bottom: 20),
       duration: const Duration(seconds: 2),
     );
+  }
+
+  static String getFormatedPrice(int value) {
+    return '৳${NumberFormat('#,##,###').format(value)}';
   }
 }

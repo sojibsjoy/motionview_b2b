@@ -8,6 +8,7 @@ import 'package:get/route_manager.dart';
 
 class CustomAppbar extends StatelessWidget {
   String? title;
+  bool? noMargin;
   Widget? logo;
   Widget? suffixWidget;
   CustomAppbar({
@@ -15,6 +16,7 @@ class CustomAppbar extends StatelessWidget {
     this.title,
     this.logo,
     this.suffixWidget,
+    this.noMargin,
   }) : super(key: key);
 
   @override
@@ -25,11 +27,18 @@ class CustomAppbar extends StatelessWidget {
         horizontal: 20.w,
         vertical: 10.h,
       ),
+      margin:
+          noMargin != null ? EdgeInsets.zero : EdgeInsets.only(bottom: 10.h),
       decoration: BoxDecoration(
-        // color: Colors.grey.shade200,
-        borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(20.r),
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.grey.shade300,
+          ),
         ),
+        // color: Colors.grey.shade200,
+        // borderRadius: BorderRadius.vertical(
+        //   bottom: Radius.circular(20.r),
+        // ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,12 +76,14 @@ class CustomAppbar extends StatelessWidget {
           if (logo == null)
             SizedBox(
               width: 185.w,
-              child: AutoSizeText(
-                title ?? 'Appbar',
-                maxLines: 1,
-                style: TextStyle(
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.w600,
+              child: Center(
+                child: AutoSizeText(
+                  title ?? 'Appbar',
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),

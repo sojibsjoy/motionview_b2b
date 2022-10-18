@@ -197,6 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Get.toNamed(DrawerSetup.routeName);
                     },
                     btnTxt: 'Sign In',
+                    btnSize: Size(double.infinity, 58.h),
                   ),
                   addH(280.h),
                   Column(

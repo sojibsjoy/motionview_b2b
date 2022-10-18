@@ -1,5 +1,10 @@
-import 'package:dogventurehq/constants/colors.dart';
+import 'package:dogventurehq/constants/strings.dart';
 import 'package:dogventurehq/ui/screens/home/custom_appbar.dart';
+import 'package:dogventurehq/ui/screens/home/searchbar_design.dart';
+import 'package:dogventurehq/ui/screens/purchase/con_row.dart';
+import 'package:dogventurehq/ui/screens/purchase/pending_order_view.dart';
+import 'package:dogventurehq/ui/screens/purchase/place_order_nav_bar.dart';
+import 'package:dogventurehq/ui/screens/purchase/place_order_view.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:dogventurehq/ui/widgets/row_btn.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +19,7 @@ class PurchaseScreen extends StatefulWidget {
 }
 
 class _PurchaseScreenState extends State<PurchaseScreen> {
+  final TextEditingController _remarksCon = TextEditingController();
   final List<String> _btnTxts = [
     'Place Order',
     'Pending Orders',
@@ -22,7 +28,6 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
     'Pre-Order',
   ];
 
-  final bool _campaignSelected = false;
   int _selectedBtnIndex = 0;
 
   @override
@@ -30,7 +35,6 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
     return Scaffold(
       body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // appbar
             CustomAppbar(title: 'Purchase'),
@@ -39,132 +43,41 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
               itemList: _btnTxts,
               onTapFn: (value) => setState(() => _selectedBtnIndex = value),
             ),
-            addH(20.h),
-            // eligible campaign
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Eligible Campaign'),
-                  addH(10.h),
-                  // campaign dropdown and info btn
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // campaign dropdown
-                      DropdownDesign(
-                        title: 'Select Campaign',
-                        ddWidth: 320.w,
-                      ),
-                      // campaign info button
-                      Container(
-                        height: 48.h,
-                        width: 48.w,
-                        decoration: BoxDecoration(
-                          color: _campaignSelected
-                              ? ConstantColors.primaryColor
-                              : Colors.grey.shade400,
-                          borderRadius: BorderRadius.circular(5.r),
-                        ),
-                        child: const Icon(
-                          Icons.info_outline,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: _selectedBtnIndex == 0 ? 20.w : 0,
                   ),
-                  addH(20.h),
-                  // payment method & delivery address
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // payment method
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('Payment Methods'),
-                          addH(10.h),
-                          DropdownDesign(
-                            title: 'via Bank',
-                            ddWidth: 190.w,
-                          ),
-                        ],
-                      ),
-                      // delivery store
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('Delivery Address'),
-                          addH(10.h),
-                          DropdownDesign(
-                            title: 'Store 1',
-                            ddWidth: 190.w,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  addH(10.h),
-                  const Divider(thickness: 1),
-                  addH(10.h),
-                  Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade400,
-                      borderRadius: BorderRadius.circular(5.r),
-                    ),
-                    child: Column(
-                      children: [
-                        DropdownDesign(title: 'Select Product'),
-                      ],
-                    ),
-                  ),
-                ],
+                  child: getBodyView(),
+                ),
               ),
             ),
           ],
         ),
       ),
+      bottomNavigationBar: PlaceOrderNavBar(
+        enableFlag: _selectedBtnIndex == 0,
+        remarksCon: _remarksCon,
+      ),
     );
   }
-}
 
-class DropdownDesign extends StatelessWidget {
-  final String title;
-  double? ddWidth;
-  DropdownDesign({
-    Key? key,
-    required this.title,
-    this.ddWidth,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: ddWidth ?? double.infinity,
-      height: 48.h,
-      padding: EdgeInsets.symmetric(horizontal: 10.w),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade400),
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.grey.shade800,
-              fontSize: 13.sp,
-            ),
+  Widget getBodyView() {
+    switch (_selectedBtnIndex) {
+      case 0:
+        return const PlaceOrderView();
+      case 1:
+      case 2:
+      case 3:
+        return const PendingOrderView();
+      default:
+        return Padding(
+          padding: EdgeInsets.only(top: 350.h),
+          child: Text(
+            ConstantStrings.kNoData,
           ),
-          Icon(
-            Icons.arrow_drop_down,
-            color: Colors.grey.shade800,
-          ),
-        ],
-      ),
-    );
+        );
+    }
   }
 }

@@ -3,11 +3,13 @@ import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:dogventurehq/ui/designs/custom_field.dart';
 import 'package:dogventurehq/ui/screens/home/searchbar_design.dart';
 import 'package:dogventurehq/ui/screens/products/product_item.dart';
+import 'package:dogventurehq/ui/screens/purchase/purchase.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:dogventurehq/ui/widgets/row_btn.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dogventurehq/ui/screens/home/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProductsScreen extends StatefulWidget {
   static String routeName = '/products';
@@ -42,7 +44,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   Icons.menu,
                 ),
               ),
-              const Divider(),
               // products btn list
               RowItem(
                 itemList: _btnTxts,
@@ -59,7 +60,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                           itemCount: 10,
                           shrinkWrap: true,
                           itemBuilder: (BuildContext context, int index) {
-                            return const ProductItem();
+                            return ProductItem();
                           },
                         ),
                       ],
@@ -170,7 +171,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
         ),
         child: Center(
           child: CustomBtn(
-            onPressedFn: () {},
+            onPressedFn: _selectedBtnIndex != 4
+                ? () => Get.toNamed(PurchaseScreen.routeName)
+                : () {},
             btnTxt: _selectedBtnIndex != 4 ? 'Order Now' : 'Submit Now',
             txtSize: 18.sp,
             btnSize: Size(366.w, 48.h),

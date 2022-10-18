@@ -1,3 +1,4 @@
+import 'package:dogventurehq/constants/colors.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,7 @@ class _RowItemState extends State<RowItem> {
               btnSize: Size(160.w, 35.h),
               txtSize: 12.sp,
               // btnBorderRadius: 10.r,
+              btnBorderColor: ConstantColors.primaryColor,
               btnColor: _selectedBtnIndex == index ? null : Colors.white,
               txtColor: _selectedBtnIndex == index ? null : Colors.black,
             ),
