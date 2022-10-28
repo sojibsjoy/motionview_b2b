@@ -3,6 +3,7 @@ import 'package:dogventurehq/states/data/routes.dart';
 import 'package:dogventurehq/ui/screens/splash/splash.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
           getPages: AllRoutes.allroutes,
           initialRoute: SplashScreen.routeName,
           initialBinding: InitialBinding(),
+          builder: EasyLoading.init(),
         );
       },
     );

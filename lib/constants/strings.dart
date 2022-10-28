@@ -12,7 +12,10 @@ class ConstantStrings {
       "Enjoy the best warranty support with every product. It's easy & faster.";
 
   // APIs
-  static String kBaseUrl = '';
+  static String kBaseUrl = 'https://b2b.motionview.com.bd/api/';
+  static String kDealerLogin = 'dealer/login';
+  static String kDealerAllProducts = 'dealer/login';
+  // https://idbdev.com/b2b/api/dealer/all-products?page=1&per_page=15&brand=&category=&search=
 
   // error msgs
   static String kWentWrong = 'Something went wrong';

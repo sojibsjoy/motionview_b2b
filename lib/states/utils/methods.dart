@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -9,6 +10,7 @@ class Methods {
     required String msg,
     IconData? icon,
     SnackPosition? position,
+    int? duration,
   }) {
     // ScaffoldMessenger.of(context).showSnackBar(snackBar(
     //   title: title,
@@ -26,11 +28,22 @@ class Methods {
       snackPosition: position ?? SnackPosition.BOTTOM,
       animationDuration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.only(bottom: 20),
-      duration: const Duration(seconds: 2),
+      duration: Duration(seconds: duration ?? 2),
     );
   }
 
   static String getFormatedPrice(int value) {
     return '৳${NumberFormat('#,##,###').format(value)}';
   }
+
+  static void showLoading() {
+    if (!EasyLoading.isShow) {
+      EasyLoading.show(
+        status: 'Loading...',
+        dismissOnTap: false,
+      );
+    }
+  }
+
+  static void hideLoading() => EasyLoading.dismiss();
 }

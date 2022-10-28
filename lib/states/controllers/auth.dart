@@ -1,4 +1,7 @@
 import 'package:dogventurehq/states/data/prefs.dart';
+import 'package:dogventurehq/states/models/login.dart';
+import 'package:dogventurehq/states/services/auth.dart';
+import 'package:dogventurehq/states/utils/methods.dart';
 // import 'package:dogventurehq/states/models/user.dart';
 // import 'package:dogventurehq/states/services/auth.dart';
 import 'package:get/state_manager.dart';
@@ -9,30 +12,36 @@ class AuthController extends GetxController {
   RxBool isRegistered = false.obs;
   RxBool isLoggedIn = false.obs;
 
-  // UserModel? user;
+  LoginModel? user;
 
-  // void login({
-  //   required String email,
-  //   required String password,
-  //   bool? rememberMe,
-  // }) async {
-  //   isLoggingIn(true);
-  //   try {
-  //     var response = await AuthService.login(
-  //       email: email,
-  //       pass: password,
-  //       rememberMe: rememberMe,
-  //     );
-  //     user = UserModel.fromJson(response);
-  //     if (user != null) {
-  //       isLoggedIn(true);
-  //       Preference.setLoggedInFlag(true);
-  //       Preference.setUserDetails(user!);
-  //     }
-  //   } finally {
-  //     isLoggingIn(false);
-  //   }
-  // }
+  void login({
+    required String email,
+    required String password,
+  }) async {
+    isLoggingIn(true);
+    Methods.showLoading();
+    try {
+      var response = await AuthService.login(
+        email: email,
+        pass: password,
+      );
+      if (response['success']) {
+        user = LoginModel.fromJson(response);
+        isLoggedIn(true);
+        Preference.setLoggedInFlag(true);
+        Preference.setUserDetails(user!);
+      } else {
+        Methods.showSnackbar(
+          title: 'Incorrect Email or Password!',
+          msg: 'Please check the given credentials.',
+          duration: 3,
+        );
+      }
+    } finally {
+      Methods.hideLoading();
+      isLoggingIn(false);
+    }
+  }
 
   // void register(UserModel registerModel) async {
   //   isRegistering(true);

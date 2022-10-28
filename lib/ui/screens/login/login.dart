@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dogventurehq/constants/colors.dart';
 import 'package:dogventurehq/constants/strings.dart';
+import 'package:dogventurehq/states/controllers/auth.dart';
 import 'package:dogventurehq/states/data/prefs.dart';
 import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
@@ -23,6 +24,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final AuthController _authCon = Get.find<AuthController>();
   final TextEditingController _emailCon = TextEditingController();
   final TextEditingController _passCon = TextEditingController();
 
@@ -31,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _rememberMeFlag = false;
 
-  late StreamSubscription _subscription;
+  // late StreamSubscription _subscription;
   bool isOffline = false;
 
   @override
@@ -41,6 +43,13 @@ class _LoginScreenState extends State<LoginScreen> {
       _passCon.text = Preference.getLoginPass();
       _rememberMeFlag = true;
     }
+
+    _authCon.isLoggingIn.listen((value) {
+      if (!value && _authCon.isLoggedIn.value) {
+        Preference.setLoggedInFlag(true);
+        Get.offAllNamed(DrawerSetup.routeName);
+      }
+    });
 
     // _subscription = InternetConnectionChecker().onStatusChange.listen((status) {
     //   final hasInternet = status == InternetConnectionStatus.connected;
@@ -54,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    _subscription.cancel();
+    // _subscription.cancel();
     super.dispose();
   }
 
@@ -192,9 +201,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         Preference.setLoginEmail(_emailCon.text);
                         Preference.setLoginPass(_passCon.text);
                         Preference.setRememberMeFlag(true);
+                        _authCon.login(
+                          email: _emailCon.text.trim(),
+                          password: _passCon.text.trim(),
+                        );
                       }
-                      Preference.setLoggedInFlag(true);
-                      Get.toNamed(DrawerSetup.routeName);
                     },
                     btnTxt: 'Sign In',
                     btnSize: Size(double.infinity, 58.h),

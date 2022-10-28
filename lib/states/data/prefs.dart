@@ -1,13 +1,20 @@
+import 'dart:convert';
+
+import 'package:dogventurehq/states/models/login.dart';
 import 'package:get_storage/get_storage.dart';
 
 class Preference {
+  // initializing
   static final prefs = GetStorage();
+
+  // keys
   static const onboardFlag = 'onboardFlag';
   static const loggedInFlag = 'loginFlag';
 
   static const rememberMeFlag = 'rememberMeFlag';
   static const loginEmail = 'loginEmail';
   static const loginPass = 'loginPass';
+  static const userDetails = 'userDetails';
 
   static bool getOnboardFlag() => prefs.read(onboardFlag) ?? false;
   static void setOnboardFlag(bool value) => prefs.write(onboardFlag, value);
@@ -24,6 +31,16 @@ class Preference {
 
   static String getLoginPass() => prefs.read(loginPass) ?? '';
   static void setLoginPass(String value) => prefs.write(loginPass, value);
+
+  static LoginModel getUserDetails() {
+    var result = prefs.read(userDetails);
+    return LoginModel.fromJson(json.decode(result));
+  }
+
+  static void setUserDetails(LoginModel value) {
+    print('Storing Login Details: ${json.encode(value.toJson())}');
+    prefs.write(userDetails, json.encode(value.toJson()));
+  }
 
   static void logout() => prefs.remove(loggedInFlag);
 
