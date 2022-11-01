@@ -5,6 +5,7 @@ import 'package:dogventurehq/constants/strings.dart';
 
 class BaseClient {
   static Future<dynamic> getData({
+    String? token,
     required String api,
     dynamic parameter,
     String? apiVersion,
@@ -13,12 +14,22 @@ class BaseClient {
     // String url = ConstantStrings.kBaseUrl + apiV + api;
     String url = ConstantStrings.kBaseUrl + api;
     print('Sending request to: $url');
+    if (token != null) {
+      print('User Token: $token');
+    }
     if (parameter != null) {
       print("Parameter: $parameter");
     }
     try {
       var response = await Dio().get(
         url,
+        options: token != null
+            ? Options(
+                headers: {
+                  'Authorization': 'Bearer $token',
+                },
+              )
+            : null,
         queryParameters: parameter,
       );
       print('GET Method: ${response.statusCode}');

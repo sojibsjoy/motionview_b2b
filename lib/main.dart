@@ -1,3 +1,4 @@
+import 'package:dogventurehq/constants/colors.dart';
 import 'package:dogventurehq/states/bindings/initial.dart';
 import 'package:dogventurehq/states/data/routes.dart';
 import 'package:dogventurehq/ui/screens/splash/splash.dart';
@@ -28,6 +29,11 @@ class MyApp extends StatelessWidget {
           getPages: AllRoutes.allroutes,
           initialRoute: SplashScreen.routeName,
           initialBinding: InitialBinding(),
+          theme: ThemeData(
+            progressIndicatorTheme: ProgressIndicatorThemeData(
+              color: ConstantColors.primaryColor,
+            ),
+          ),
           builder: EasyLoading.init(),
         );
       },

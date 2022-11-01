@@ -1,5 +1,6 @@
 import 'package:dogventurehq/states/bindings/auth.dart';
 import 'package:dogventurehq/states/bindings/initial.dart';
+import 'package:dogventurehq/states/bindings/products.dart';
 import 'package:dogventurehq/ui/screens/campaign/campaign.dart';
 import 'package:dogventurehq/ui/screens/campaign_details/campaign_details.dart';
 import 'package:dogventurehq/ui/screens/drawer.dart';
@@ -37,6 +38,7 @@ class AllRoutes {
     GetPage(
       name: ProductsScreen.routeName,
       page: () => const ProductsScreen(),
+      binding: ProductsBinding(),
     ),
     GetPage(
       name: PurchaseScreen.routeName,

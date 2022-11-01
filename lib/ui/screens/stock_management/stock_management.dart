@@ -1,8 +1,5 @@
-import 'package:dogventurehq/constants/colors.dart';
 import 'package:dogventurehq/ui/screens/home/custom_appbar.dart';
 import 'package:dogventurehq/ui/screens/home/searchbar_design.dart';
-import 'package:dogventurehq/ui/screens/products/product_item.dart';
-import 'package:dogventurehq/ui/screens/products/product_price.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:dogventurehq/ui/widgets/nav_total_view.dart';
 import 'package:dogventurehq/ui/widgets/row_btn.dart';
@@ -40,49 +37,49 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
             // search bar
             const SearchbarDesign(),
             // stock list
-            Expanded(
-              child: ListView.builder(
-                itemCount: 10,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return ProductItem(
-                    w1: const ProductPrice(
-                      prefix: 'Lifting',
-                      price: '40,890',
-                      txtClr: Colors.red,
-                    ),
-                    w2: const ProductPrice(
-                      prefix: 'RP',
-                      price: '43,990',
-                      txtClr: Colors.blue,
-                    ),
-                    w3: const ProductPrice(
-                      prefix: 'MRP',
-                      price: '49,990',
-                      txtClr: Colors.green,
-                    ),
-                    suffixW: RichText(
-                      text: TextSpan(
-                        text: 'Stock ',
-                        style: TextStyle(
-                          fontSize: 8,
-                          color: ConstantColors.primaryColor,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: '500',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: ConstantColors.primaryColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+            // Expanded(
+            //   child: ListView.builder(
+            //     itemCount: 10,
+            //     shrinkWrap: true,
+            //     itemBuilder: (BuildContext context, int index) {
+            //       return ProductItem(
+            //         w1: const ProductPrice(
+            //           prefix: 'Lifting',
+            //           price: '40,890',
+            //           txtClr: Colors.red,
+            //         ),
+            //         w2: const ProductPrice(
+            //           prefix: 'RP',
+            //           price: '43,990',
+            //           txtClr: Colors.blue,
+            //         ),
+            //         w3: const ProductPrice(
+            //           prefix: 'MRP',
+            //           price: '49,990',
+            //           txtClr: Colors.green,
+            //         ),
+            //         suffixW: RichText(
+            //           text: TextSpan(
+            //             text: 'Stock ',
+            //             style: TextStyle(
+            //               fontSize: 8,
+            //               color: ConstantColors.primaryColor,
+            //             ),
+            //             children: [
+            //               TextSpan(
+            //                 text: '500',
+            //                 style: TextStyle(
+            //                   fontSize: 10,
+            //                   color: ConstantColors.primaryColor,
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),

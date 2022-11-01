@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dogventurehq/states/data/prefs.dart';
 import 'package:dogventurehq/states/models/login.dart';
 import 'package:dogventurehq/states/services/auth.dart';
@@ -17,6 +19,7 @@ class AuthController extends GetxController {
   void login({
     required String email,
     required String password,
+    required bool dealerFlag,
   }) async {
     isLoggingIn(true);
     Methods.showLoading();
@@ -24,9 +27,10 @@ class AuthController extends GetxController {
       var response = await AuthService.login(
         email: email,
         pass: password,
+        dealerFlag: dealerFlag,
       );
       if (response['success']) {
-        user = LoginModel.fromJson(response);
+        user = loginModelFromJson(jsonEncode(response));
         isLoggedIn(true);
         Preference.setLoggedInFlag(true);
         Preference.setUserDetails(user!);

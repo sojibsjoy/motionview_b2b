@@ -18,9 +18,12 @@ class AuthService {
   static Future<dynamic> login({
     required String email,
     required String pass,
+    required bool dealerFlag,
   }) async {
     var response = await BaseClient.postData(
-      api: ConstantStrings.kDealerLogin,
+      api: dealerFlag
+          ? ConstantStrings.kDealerLogin
+          : ConstantStrings.kRetailerLogin,
       body: {
         "email": email,
         "password": pass,

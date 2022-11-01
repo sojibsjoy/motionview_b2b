@@ -13,9 +13,20 @@ class ConstantStrings {
 
   // APIs
   static String kBaseUrl = 'https://b2b.motionview.com.bd/api/';
+  // dealer APIs
   static String kDealerLogin = 'dealer/login';
-  static String kDealerAllProducts = 'dealer/login';
-  // https://idbdev.com/b2b/api/dealer/all-products?page=1&per_page=15&brand=&category=&search=
+  static String kDealerAllProducts = 'dealer/all-products';
+  static String kDealerTrendingProducts = 'dealer/trending-products';
+  static String kDealerNewArrivalProducts = 'dealer/new-arrival-products';
+  static String kDealerUpcomingProducts = 'dealer/upcomming-products';
+
+  // retailer APIs
+  static String kRetailerLogin = 'retailer/login';
+  static String kRetailerAllProducts = 'retailer/all-products';
+  static String kRetailerTrendingProducts = 'retailer/trending-products';
+  static String kRetailerNewArrivalProducts = 'retailer/new-arrival-products';
+  static String kRetailerUpcomingProducts = 'retailer/upcomming-products';
+  // https://b2b.motionview.com.bd/api/retailer/all-products?page=1&per_page=2&brand=&category=&search=
 
   // error msgs
   static String kWentWrong = 'Something went wrong';

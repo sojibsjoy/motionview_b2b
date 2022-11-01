@@ -1,4 +1,8 @@
 import 'package:dogventurehq/constants/colors.dart';
+import 'package:dogventurehq/constants/strings.dart';
+import 'package:dogventurehq/states/controllers/products.dart';
+import 'package:dogventurehq/states/data/prefs.dart';
+import 'package:dogventurehq/states/models/login.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:dogventurehq/ui/designs/custom_field.dart';
 import 'package:dogventurehq/ui/screens/home/searchbar_design.dart';
@@ -20,6 +24,7 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
+  final ProductsController _productsCon = Get.find<ProductsController>();
   final TextEditingController _pNameCon = TextEditingController();
   final List<String> _btnTxts = [
     'All Products',
@@ -31,130 +36,204 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   int _selectedBtnIndex = 0;
 
+  LoginModel? _loginModel;
+  bool _dealerFlag = false;
+
+  @override
+  void initState() {
+    _loginModel = Preference.getUserDetails();
+    _dealerFlag = Preference.getDealerFlag();
+    _productsCon.getAllProducts(
+      token: _loginModel!.data.token,
+      dealerFlag: _dealerFlag,
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              CustomAppbar(
-                title: 'Products',
-                suffixWidget: const Icon(
-                  Icons.menu,
-                ),
+        child: Column(
+          children: [
+            CustomAppbar(
+              title: 'Products',
+              suffixWidget: const Icon(
+                Icons.menu,
               ),
-              // products btn list
-              RowItem(
-                itemList: _btnTxts,
-                onTapFn: (value) => setState(() => _selectedBtnIndex = value),
+            ),
+            // products btn list
+            RowItem(
+              itemList: _btnTxts,
+              onTapFn: (value) => setState(
+                () {
+                  _selectedBtnIndex = value;
+                  if (_selectedBtnIndex != 4) {
+                    _productsCon.getAllProducts(
+                      token: _loginModel!.data.token,
+                      dealerFlag: _dealerFlag,
+                      trendingFlag: _selectedBtnIndex == 1 ? true : null,
+                      newArrivalFlag: _selectedBtnIndex == 2 ? true : null,
+                      upcomingFlag: _selectedBtnIndex == 3 ? true : null,
+                    );
+                  }
+                },
               ),
-              addH(10.h),
-              _selectedBtnIndex != 4
-                  ? Column(
+            ),
+            addH(10.h),
+            _selectedBtnIndex != 4
+                ? Column(
+                    children: [
+                      // search bar
+                      const SearchbarDesign(),
+                      // product list
+                      SizedBox(
+                        height: 645.h,
+                        child: Obx(() {
+                          if (_productsCon.productsLoading.value) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else {
+                            if (_productsCon.productsModel == null) {
+                              return Center(
+                                child: Text(
+                                  ConstantStrings.kWentWrong,
+                                ),
+                              );
+                            } else if (_productsCon
+                                .productsModel!.data.isEmpty) {
+                              return Center(
+                                child: Text(
+                                  ConstantStrings.kNoData,
+                                ),
+                              );
+                            } else {
+                              return RefreshIndicator(
+                                onRefresh: () async =>
+                                    _productsCon.getAllProducts(
+                                  token: _loginModel!.data.token,
+                                  dealerFlag: _dealerFlag,
+                                  trendingFlag:
+                                      _selectedBtnIndex == 1 ? true : null,
+                                  newArrivalFlag:
+                                      _selectedBtnIndex == 2 ? true : null,
+                                  upcomingFlag:
+                                      _selectedBtnIndex == 3 ? true : null,
+                                ),
+                                color: ConstantColors.primaryColor,
+                                child: ListView.builder(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 10.w),
+                                  itemCount:
+                                      _productsCon.productsModel!.data.length,
+                                  shrinkWrap: true,
+                                  primary: false,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return ProductItem(
+                                      dealerFlag: _dealerFlag ? true : null,
+                                      pModel: _productsCon
+                                          .productsModel!.data[index],
+                                    );
+                                  },
+                                ),
+                              );
+                            }
+                          }
+                        }),
+                      ),
+                    ],
+                  )
+                : Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // search bar
-                        const SearchbarDesign(),
-                        // product list
-                        ListView.builder(
-                          itemCount: 10,
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ProductItem();
-                          },
+                        addH(20.h),
+                        const Text('Product Name'),
+                        addH(10.h),
+                        // product name field
+                        CustomField(
+                          textCon: _pNameCon,
+                          hintText: 'Ex: Amazfit GTR 4 Smartwatch',
                         ),
-                      ],
-                    )
-                  : Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          addH(20.h),
-                          const Text('Product Name'),
-                          addH(10.h),
-                          // product name field
-                          CustomField(
-                            textCon: _pNameCon,
-                            hintText: 'Ex: Amazfit GTR 4 Smartwatch',
+                        addH(20.h),
+                        // color & quantity field
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // color field
+                            horizontalField(
+                              title: 'Color',
+                              hintTxt: 'Ex: Black',
+                              txtCon: _pNameCon,
+                            ),
+                            // quantity field
+                            horizontalField(
+                              title: 'Required Quantity',
+                              hintTxt: 'Ex: 1000',
+                              txtCon: _pNameCon,
+                            ),
+                          ],
+                        ),
+                        addH(20.h),
+                        // asking price field
+                        const Text('Asking Price'),
+                        addH(10.h),
+                        CustomField(
+                          textCon: _pNameCon,
+                          hintText: 'Ex: 19,000',
+                        ),
+                        addH(20.h),
+                        // web link field
+                        const Text('Web Link (if available)'),
+                        addH(10.h),
+                        CustomField(
+                          textCon: _pNameCon,
+                          hintText:
+                              'Ex: https://motionview.com.bd/product/amazfit-gtr-4-smart-watch-global-version',
+                        ),
+                        addH(20.h),
+                        // photo upload
+                        const Text('Upload Photo'),
+                        addH(10.h),
+                        Container(
+                          width: double.infinity,
+                          height: 190.h,
+                          margin: EdgeInsets.only(right: 10.w),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
                           ),
-                          addH(20.h),
-                          // color & quantity field
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              // color field
-                              horizontalField(
-                                title: 'Color',
-                                hintTxt: 'Ex: Black',
-                                txtCon: _pNameCon,
+                              const Icon(
+                                Icons.image,
+                                size: 80,
                               ),
-                              // quantity field
-                              horizontalField(
-                                title: 'Required Quantity',
-                                hintTxt: 'Ex: 1000',
-                                txtCon: _pNameCon,
+                              const Text(
+                                'Select a photo to upload',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              CustomBtn(
+                                onPressedFn: () {},
+                                btnTxt: 'Browse',
+                                btnColor: Colors.white,
+                                txtSize: 14.sp,
+                                btnBroderRadius: 30.r,
+                                txtColor: ConstantColors.primaryColor,
+                                btnSize: Size(160.w, 36.h),
                               ),
                             ],
                           ),
-                          addH(20.h),
-                          // asking price field
-                          const Text('Asking Price'),
-                          addH(10.h),
-                          CustomField(
-                            textCon: _pNameCon,
-                            hintText: 'Ex: 19,000',
-                          ),
-                          addH(20.h),
-                          // web link field
-                          const Text('Web Link (if available)'),
-                          addH(10.h),
-                          CustomField(
-                            textCon: _pNameCon,
-                            hintText:
-                                'Ex: https://motionview.com.bd/product/amazfit-gtr-4-smart-watch-global-version',
-                          ),
-                          addH(20.h),
-                          // photo upload
-                          const Text('Upload Photo'),
-                          addH(10.h),
-                          Container(
-                            width: double.infinity,
-                            height: 190.h,
-                            margin: EdgeInsets.only(right: 10.w),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                const Icon(
-                                  Icons.image,
-                                  size: 80,
-                                ),
-                                const Text(
-                                  'Select a photo to upload',
-                                  style: TextStyle(
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                                CustomBtn(
-                                  onPressedFn: () {},
-                                  btnTxt: 'Browse',
-                                  btnColor: Colors.white,
-                                  txtSize: 14.sp,
-                                  btnBroderRadius: 30.r,
-                                  txtColor: ConstantColors.primaryColor,
-                                  btnSize: Size(160.w, 36.h),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-            ],
-          ),
+                  ),
+          ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dogventurehq/constants/colors.dart';
 import 'package:dogventurehq/constants/strings.dart';
@@ -28,16 +26,15 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailCon = TextEditingController();
   final TextEditingController _passCon = TextEditingController();
 
-  final FocusNode _emailFieldNode = FocusNode();
-  final FocusNode _passFieldNode = FocusNode();
-
   bool _rememberMeFlag = false;
 
   // late StreamSubscription _subscription;
-  bool isOffline = false;
+  // bool _isOffline = false;
+  bool _dealerFlag = true;
 
   @override
   void initState() {
+    _dealerFlag = Preference.getDealerFlag();
     if (Preference.getRememberMeFlag()) {
       _emailCon.text = Preference.getLoginEmail();
       _passCon.text = Preference.getLoginPass();
@@ -47,6 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _authCon.isLoggingIn.listen((value) {
       if (!value && _authCon.isLoggedIn.value) {
         Preference.setLoggedInFlag(true);
+        Preference.setDealerFlag(_dealerFlag);
         Get.offAllNamed(DrawerSetup.routeName);
       }
     });
@@ -89,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
             //     ),
             //   ),
             // ),
-            addH(110.h),
+            addH(80.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 30.w),
               child: Column(
@@ -105,6 +103,29 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontSize: 36.sp,
                       fontWeight: FontWeight.bold,
                     ),
+                  ),
+                  addH(50.h),
+                  Text(
+                    "I'm going to Sign in as a...",
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        color: ConstantColors.primaryColor,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  addH(20.h),
+                  Row(
+                    children: [
+                      TabbarItem(
+                        onTapFn: () => setState(() => _dealerFlag = true),
+                        title: 'Dealer',
+                        isSelected: _dealerFlag,
+                      ),
+                      TabbarItem(
+                        onTapFn: () => setState(() => _dealerFlag = false),
+                        title: 'Retailer',
+                        isSelected: !_dealerFlag,
+                      ),
+                    ],
                   ),
                   addH(30.h),
                   // email title
@@ -204,13 +225,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         _authCon.login(
                           email: _emailCon.text.trim(),
                           password: _passCon.text.trim(),
+                          dealerFlag: _dealerFlag,
                         );
                       }
                     },
-                    btnTxt: 'Sign In',
+                    btnTxt: _dealerFlag
+                        ? 'Sign In as Dealer'
+                        : 'Sign In as Retailer',
+                    txtSize: 18.sp,
                     btnSize: Size(double.infinity, 58.h),
                   ),
-                  addH(280.h),
+                  addH(180.h),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -261,6 +286,48 @@ class _LoginScreenState extends State<LoginScreen> {
         color:
             //  context.isDarkMode ? ConstantColors.kC0C0C4 :
             const Color(0xFF1D3557),
+      ),
+    );
+  }
+}
+
+class TabbarItem extends StatelessWidget {
+  final VoidCallback onTapFn;
+  final String title;
+  final bool isSelected;
+  const TabbarItem({
+    Key? key,
+    required this.onTapFn,
+    required this.title,
+    required this.isSelected,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: InkWell(
+        onTap: onTapFn,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        child: Container(
+          height: 40.h,
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                width: isSelected ? 4 : 1,
+                color: ConstantColors.primaryColor,
+              ),
+            ),
+          ),
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
       ),
     );
   }

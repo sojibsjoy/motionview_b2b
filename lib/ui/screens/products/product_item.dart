@@ -1,15 +1,22 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:dogventurehq/states/models/products.dart';
+import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:dogventurehq/ui/screens/products/product_price.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
 class ProductItem extends StatelessWidget {
+  ProductModel pModel;
+  bool? dealerFlag;
   Widget? w1;
   Widget? w2;
   Widget? w3;
   Widget? suffixW;
   ProductItem({
     Key? key,
+    required this.pModel,
+    this.dealerFlag,
     this.w1,
     this.w2,
     this.w3,
@@ -20,9 +27,9 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 375.w,
-      height: 80.h,
+      height: 90.h,
       padding: EdgeInsets.all(10.w),
-      margin: EdgeInsets.all(10.h),
+      margin: EdgeInsets.only(top: 10.w),
       decoration: BoxDecoration(
         color: Colors.grey.shade200,
         borderRadius: BorderRadius.circular(6.r),
@@ -51,10 +58,15 @@ class ProductItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Expanded(
-                      child: Text(
-                        'Amazfit GTS 4 Mini Smartwatch',
-                        style: TextStyle(
+                    SizedBox(
+                      width: 315.w,
+                      height: 45.h,
+                      child: AutoSizeText(
+                        pModel.name,
+                        minFontSize: 10,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -67,25 +79,29 @@ class ProductItem extends StatelessWidget {
                 children: [
                   w1 != null
                       ? w1!
-                      : const ProductPrice(
-                          prefix: 'DP',
-                          price: '40,890',
+                      : ProductPrice(
+                          prefix: dealerFlag != null ? 'DP' : 'Lifting',
+                          price: Methods.getFormatedPrice(
+                            dealerFlag != null
+                                ? pModel.dpPrice
+                                : pModel.liftingPrice,
+                          ),
                           txtClr: Colors.red,
                         ),
                   addW(10.w),
                   w2 != null
                       ? w2!
-                      : const ProductPrice(
+                      : ProductPrice(
                           prefix: 'RP',
-                          price: '43,990',
+                          price: Methods.getFormatedPrice(pModel.rpPrice),
                           txtClr: Colors.blue,
                         ),
                   addW(10.w),
                   w3 != null
                       ? w3!
-                      : const ProductPrice(
+                      : ProductPrice(
                           prefix: 'MRP',
-                          price: '49,990',
+                          price: Methods.getFormatedPrice(pModel.mrpPrice),
                           txtClr: Colors.green,
                         ),
                 ],
