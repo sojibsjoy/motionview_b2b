@@ -1,21 +1,32 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:dogventurehq/states/models/products.dart';
 import 'package:dogventurehq/states/utils/methods.dart';
+import 'package:dogventurehq/ui/designs/custom_img.dart';
 import 'package:dogventurehq/ui/screens/products/product_price.dart';
-import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
 class ProductItem extends StatelessWidget {
-  ProductModel pModel;
+  final String pImg;
+  final String pName;
+  double? pNameW;
   bool? dealerFlag;
+  final int dpPrice;
+  final int liftingPrice;
+  final int rpPrice;
+  final int mrpPrice;
   Widget? w1;
   Widget? w2;
   Widget? w3;
   Widget? suffixW;
   ProductItem({
     Key? key,
-    required this.pModel,
+    required this.pImg,
+    required this.pName,
+    this.pNameW,
+    required this.dpPrice,
+    required this.liftingPrice,
+    required this.rpPrice,
+    required this.mrpPrice,
     this.dealerFlag,
     this.w1,
     this.w2,
@@ -45,6 +56,11 @@ class ProductItem extends StatelessWidget {
               color: Colors.amber,
               borderRadius: BorderRadius.circular(5.r),
             ),
+            child: Center(
+              child: CustomImg(
+                imgUrl: pImg,
+              ),
+            ),
           ),
           // product details
           Column(
@@ -59,10 +75,10 @@ class ProductItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 315.w,
+                      width: pNameW ?? 315.w,
                       height: 45.h,
                       child: AutoSizeText(
-                        pModel.name,
+                        pName,
                         minFontSize: 10,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
@@ -75,36 +91,41 @@ class ProductItem extends StatelessWidget {
                   ],
                 ),
               ),
-              Row(
-                children: [
-                  w1 != null
-                      ? w1!
-                      : ProductPrice(
-                          prefix: dealerFlag != null ? 'DP' : 'Lifting',
-                          price: Methods.getFormatedPrice(
-                            dealerFlag != null
-                                ? pModel.dpPrice
-                                : pModel.liftingPrice,
+              SizedBox(
+                width: 315.w,
+                child: Row(
+                  children: [
+                    w1 != null
+                        ? w1!
+                        : Flexible(
+                            child: ProductPrice(
+                              prefix: dealerFlag != null ? 'DP' : 'Lifting',
+                              price: Methods.getFormatedPrice(
+                                dealerFlag != null ? dpPrice : liftingPrice,
+                              ),
+                              txtClr: Colors.red,
+                            ),
                           ),
-                          txtClr: Colors.red,
-                        ),
-                  addW(10.w),
-                  w2 != null
-                      ? w2!
-                      : ProductPrice(
-                          prefix: 'RP',
-                          price: Methods.getFormatedPrice(pModel.rpPrice),
-                          txtClr: Colors.blue,
-                        ),
-                  addW(10.w),
-                  w3 != null
-                      ? w3!
-                      : ProductPrice(
-                          prefix: 'MRP',
-                          price: Methods.getFormatedPrice(pModel.mrpPrice),
-                          txtClr: Colors.green,
-                        ),
-                ],
+                    w2 != null
+                        ? w2!
+                        : Flexible(
+                            child: ProductPrice(
+                              prefix: 'RP',
+                              price: Methods.getFormatedPrice(rpPrice),
+                              txtClr: Colors.blue,
+                            ),
+                          ),
+                    w3 != null
+                        ? w3!
+                        : Flexible(
+                            child: ProductPrice(
+                              prefix: 'MRP',
+                              price: Methods.getFormatedPrice(mrpPrice),
+                              txtClr: Colors.green,
+                            ),
+                          ),
+                  ],
+                ),
               )
             ],
           )

@@ -33,6 +33,9 @@ class MyApp extends StatelessWidget {
             progressIndicatorTheme: ProgressIndicatorThemeData(
               color: ConstantColors.primaryColor,
             ),
+            popupMenuTheme: PopupMenuThemeData(
+              color: ConstantColors.kDFFFCF,
+            ),
           ),
           builder: EasyLoading.init(),
         );

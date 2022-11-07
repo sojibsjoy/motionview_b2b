@@ -1,12 +1,19 @@
-import 'package:dogventurehq/constants/colors.dart';
+import 'package:dogventurehq/states/controllers/purchase.dart';
+import 'package:dogventurehq/states/models/payment_methods.dart';
+import 'package:dogventurehq/ui/designs/custom_dd.dart';
 import 'package:dogventurehq/ui/screens/purchase/dropdown_design.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:dogventurehq/ui/widgets/selection_product_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PlaceOrderView extends StatefulWidget {
-  const PlaceOrderView({super.key});
+  final PurchaseController pCon;
+  const PlaceOrderView({
+    super.key,
+    required this.pCon,
+  });
 
   @override
   State<PlaceOrderView> createState() => _PlaceOrderViewState();
@@ -18,6 +25,13 @@ class _PlaceOrderViewState extends State<PlaceOrderView> {
   final bool _campaignSelected = false;
   final int _qtyConCounter = 0;
 
+  List<String> pMethods = [
+    'via Bank',
+    'via ATM',
+    'via Cash',
+    'via Nagad',
+  ];
+  PaymentMethod? _selectedMethods;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -25,35 +39,35 @@ class _PlaceOrderViewState extends State<PlaceOrderView> {
       children: [
         addH(20.h),
         // eligible campaign
-        const Text('Eligible Campaign'),
-        addH(10.h),
+        // const Text('Eligible Campaign'),
+        // addH(10.h),
         // campaign dropdown and info btn
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // campaign dropdown
-            DropdownDesign(
-              title: 'Select Campaign',
-              ddWidth: 320.w,
-            ),
-            // campaign info button
-            Container(
-              height: 48.h,
-              width: 48.w,
-              decoration: BoxDecoration(
-                color: _campaignSelected
-                    ? ConstantColors.primaryColor
-                    : Colors.grey.shade400,
-                borderRadius: BorderRadius.circular(5.r),
-              ),
-              child: const Icon(
-                Icons.info_outline,
-                color: Colors.white,
-              ),
-            ),
-          ],
-        ),
-        addH(20.h),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     // campaign dropdown
+        //     DropdownDesign(
+        //       title: 'Select Campaign',
+        //       ddWidth: 320.w,
+        //     ),
+        //     // campaign info button
+        //     Container(
+        //       height: 48.h,
+        //       width: 48.w,
+        //       decoration: BoxDecoration(
+        //         color: _campaignSelected
+        //             ? ConstantColors.primaryColor
+        //             : Colors.grey.shade400,
+        //         borderRadius: BorderRadius.circular(5.r),
+        //       ),
+        //       child: const Icon(
+        //         Icons.info_outline,
+        //         color: Colors.white,
+        //       ),
+        //     ),
+        //   ],
+        // ),
+        // addH(20.h),
         // payment method & delivery address
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,10 +78,41 @@ class _PlaceOrderViewState extends State<PlaceOrderView> {
               children: [
                 const Text('Payment Methods'),
                 addH(10.h),
-                DropdownDesign(
-                  title: 'via Bank',
-                  ddWidth: 190.w,
-                ),
+                Obx(() {
+                  if (widget.pCon.pmLoading.value) {
+                    return DropdownDesign(
+                      title: 'Loading...',
+                      ddWidth: 190.w,
+                    );
+                  } else {
+                    if (widget.pCon.pmModel == null ||
+                        widget.pCon.pmModel!.data.isEmpty) {
+                      return DropdownDesign(
+                        title: 'No Methods Found!',
+                        ddWidth: 190.w,
+                      );
+                    } else {
+                      return CustomDD(
+                        givenValue: _selectedMethods,
+                        hintTxt: 'Select Methods',
+                        ddWidth: 190.w,
+                        items: widget.pCon.pmModel!.data.map((e) {
+                          return _getDDMenuItem(
+                            item: e,
+                            txt: e.name,
+                          );
+                        }).toList(),
+                        onChangedFn: (value) => setState(
+                          () => _selectedMethods = value,
+                        ),
+                      );
+                    }
+                  }
+                }),
+                // DropdownDesign(
+                //   title: 'via Bank',
+                //   ddWidth: 190.w,
+                // ),
               ],
             ),
             // delivery store
@@ -90,6 +135,26 @@ class _PlaceOrderViewState extends State<PlaceOrderView> {
         // selected product list
         const SelectionProductList(),
       ],
+    );
+  }
+
+  DropdownMenuItem<dynamic> _getDDMenuItem({
+    required dynamic item,
+    required String txt,
+  }) {
+    return DropdownMenuItem(
+      value: item,
+      child: Row(
+        children: [
+          addW(15.w),
+          Text(
+            txt,
+            style: TextStyle(
+              fontSize: 16.sp,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

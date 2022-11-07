@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:dogventurehq/states/models/products.dart';
-import 'package:dogventurehq/states/services/products.dart';
+import 'package:dogventurehq/states/models/product.dart';
+import 'package:dogventurehq/states/services/product.dart';
 import 'package:get/state_manager.dart';
 
-class ProductsController extends GetxController {
+class ProductController extends GetxController {
   RxBool productsLoading = true.obs;
 
   ProductsModel? productsModel;
@@ -23,7 +23,7 @@ class ProductsController extends GetxController {
   }) async {
     productsLoading(true);
     try {
-      var response = await ProductsService.getAllProducts(
+      var response = await ProductService.getAllProducts(
         usrToken: token,
         dealerFlag: dealerFlag,
         page: page,

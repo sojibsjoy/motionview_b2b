@@ -1,14 +1,15 @@
 import 'package:dogventurehq/constants/strings.dart';
+import 'package:dogventurehq/states/controllers/purchase.dart';
+import 'package:dogventurehq/states/data/prefs.dart';
+import 'package:dogventurehq/states/models/login.dart';
 import 'package:dogventurehq/ui/screens/home/custom_appbar.dart';
-import 'package:dogventurehq/ui/screens/home/searchbar_design.dart';
-import 'package:dogventurehq/ui/screens/purchase/con_row.dart';
-import 'package:dogventurehq/ui/screens/purchase/pending_order_view.dart';
+import 'package:dogventurehq/ui/screens/purchase/order_list.dart';
 import 'package:dogventurehq/ui/screens/purchase/place_order_nav_bar.dart';
 import 'package:dogventurehq/ui/screens/purchase/place_order_view.dart';
-import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:dogventurehq/ui/widgets/row_btn.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PurchaseScreen extends StatefulWidget {
   static String routeName = '/purchase';
@@ -19,6 +20,7 @@ class PurchaseScreen extends StatefulWidget {
 }
 
 class _PurchaseScreenState extends State<PurchaseScreen> {
+  final PurchaseController _purchaseCon = Get.find<PurchaseController>();
   final TextEditingController _remarksCon = TextEditingController();
   final List<String> _btnTxts = [
     'Place Order',
@@ -29,6 +31,19 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
   ];
 
   int _selectedBtnIndex = 0;
+
+  late LoginModel _usrInfo;
+  bool _dealerFlag = false;
+
+  @override
+  void initState() {
+    _usrInfo = Preference.getUserDetails();
+    _dealerFlag = Preference.getDealerFlag();
+    _purchaseCon.getPaymentMethods(
+      usrToken: _usrInfo.data.token,
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +56,20 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
             // btn list
             RowItem(
               itemList: _btnTxts,
-              onTapFn: (value) => setState(() => _selectedBtnIndex = value),
+              onTapFn: (value) => setState(
+                () {
+                  _selectedBtnIndex = value;
+                  if (_selectedBtnIndex != 0) {
+                    _purchaseCon.getAllOrders(
+                      token: _usrInfo.data.token,
+                      dealerFlag: _dealerFlag,
+                      pendingFlag: _selectedBtnIndex == 1 ? true : null,
+                      shippingFlag: _selectedBtnIndex == 2 ? true : null,
+                      purchaseHistoryFlag: _selectedBtnIndex == 3 ? true : null,
+                    );
+                  }
+                },
+              ),
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -66,11 +94,13 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
   Widget getBodyView() {
     switch (_selectedBtnIndex) {
       case 0:
-        return const PlaceOrderView();
+        return PlaceOrderView(
+          pCon: _purchaseCon,
+        );
       case 1:
       case 2:
       case 3:
-        return const PendingOrderView();
+        return OrderList(pCon: _purchaseCon);
       default:
         return Padding(
           padding: EdgeInsets.only(top: 350.h),

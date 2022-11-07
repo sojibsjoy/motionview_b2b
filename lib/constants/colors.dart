@@ -70,4 +70,6 @@ class ConstantColors {
 
   // mv-b2b clrs
   static Color k1D3557 = const Color(0xFF1D3557);
+  static Color kE5F2FF = const Color(0xFFE5F2FF);
+  static Color kDFFFCF = const Color(0xFFDFFFCF);
 }

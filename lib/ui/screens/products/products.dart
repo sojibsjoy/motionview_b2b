@@ -1,6 +1,6 @@
 import 'package:dogventurehq/constants/colors.dart';
 import 'package:dogventurehq/constants/strings.dart';
-import 'package:dogventurehq/states/controllers/products.dart';
+import 'package:dogventurehq/states/controllers/product.dart';
 import 'package:dogventurehq/states/data/prefs.dart';
 import 'package:dogventurehq/states/models/login.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
@@ -24,7 +24,7 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  final ProductsController _productsCon = Get.find<ProductsController>();
+  final ProductController _productsCon = Get.find<ProductController>();
   final TextEditingController _pNameCon = TextEditingController();
   final List<String> _btnTxts = [
     'All Products',
@@ -36,7 +36,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   int _selectedBtnIndex = 0;
 
-  LoginModel? _loginModel;
+  late LoginModel _loginModel;
   bool _dealerFlag = false;
 
   @override
@@ -44,7 +44,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
     _loginModel = Preference.getUserDetails();
     _dealerFlag = Preference.getDealerFlag();
     _productsCon.getAllProducts(
-      token: _loginModel!.data.token,
+      token: _loginModel.data.token,
       dealerFlag: _dealerFlag,
     );
     super.initState();
@@ -70,7 +70,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   _selectedBtnIndex = value;
                   if (_selectedBtnIndex != 4) {
                     _productsCon.getAllProducts(
-                      token: _loginModel!.data.token,
+                      token: _loginModel.data.token,
                       dealerFlag: _dealerFlag,
                       trendingFlag: _selectedBtnIndex == 1 ? true : null,
                       newArrivalFlag: _selectedBtnIndex == 2 ? true : null,
@@ -112,7 +112,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               return RefreshIndicator(
                                 onRefresh: () async =>
                                     _productsCon.getAllProducts(
-                                  token: _loginModel!.data.token,
+                                  token: _loginModel.data.token,
                                   dealerFlag: _dealerFlag,
                                   trendingFlag:
                                       _selectedBtnIndex == 1 ? true : null,
@@ -133,8 +133,17 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                       (BuildContext context, int index) {
                                     return ProductItem(
                                       dealerFlag: _dealerFlag ? true : null,
-                                      pModel: _productsCon
-                                          .productsModel!.data[index],
+                                      pImg: '',
+                                      pName: _productsCon
+                                          .productsModel!.data[index].name,
+                                      dpPrice: _productsCon
+                                          .productsModel!.data[index].dpPrice,
+                                      liftingPrice: _productsCon.productsModel!
+                                          .data[index].liftingPrice,
+                                      rpPrice: _productsCon
+                                          .productsModel!.data[index].rpPrice,
+                                      mrpPrice: _productsCon
+                                          .productsModel!.data[index].mrpPrice,
                                     );
                                   },
                                 ),

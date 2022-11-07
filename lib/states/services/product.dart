@@ -1,7 +1,7 @@
 import 'package:dogventurehq/constants/strings.dart';
 import 'package:dogventurehq/states/services/base_client.dart';
 
-class ProductsService {
+class ProductService {
   // Login Function
   static Future<dynamic> getAllProducts({
     required String usrToken,

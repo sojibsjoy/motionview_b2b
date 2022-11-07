@@ -1,6 +1,9 @@
 import 'package:dogventurehq/states/bindings/auth.dart';
 import 'package:dogventurehq/states/bindings/initial.dart';
-import 'package:dogventurehq/states/bindings/products.dart';
+import 'package:dogventurehq/states/bindings/product.dart';
+import 'package:dogventurehq/states/bindings/purchase.dart';
+import 'package:dogventurehq/states/bindings/return.dart';
+import 'package:dogventurehq/states/bindings/stock.dart';
 import 'package:dogventurehq/ui/screens/campaign/campaign.dart';
 import 'package:dogventurehq/ui/screens/campaign_details/campaign_details.dart';
 import 'package:dogventurehq/ui/screens/drawer.dart';
@@ -13,6 +16,7 @@ import 'package:dogventurehq/ui/screens/purchase/purchase.dart';
 import 'package:dogventurehq/ui/screens/return_management/return_management.dart';
 import 'package:dogventurehq/ui/screens/splash/splash.dart';
 import 'package:dogventurehq/ui/screens/stock_management/stock_management.dart';
+import 'package:dogventurehq/ui/screens/warranty/warranty.dart';
 import 'package:get/route_manager.dart';
 
 class AllRoutes {
@@ -38,11 +42,12 @@ class AllRoutes {
     GetPage(
       name: ProductsScreen.routeName,
       page: () => const ProductsScreen(),
-      binding: ProductsBinding(),
+      binding: ProductBinding(),
     ),
     GetPage(
       name: PurchaseScreen.routeName,
       page: () => const PurchaseScreen(),
+      binding: PurchaseBinding(),
     ),
     GetPage(
       name: PartyLedger.routeName,
@@ -55,10 +60,12 @@ class AllRoutes {
     GetPage(
       name: StockManagementScreen.routeName,
       page: () => const StockManagementScreen(),
+      binding: StockBinding(),
     ),
     GetPage(
       name: ReturnManagementScreen.routeName,
       page: () => const ReturnManagementScreen(),
+      binding: ReturnBinding(),
     ),
     GetPage(
       name: CampaignScreen.routeName,
@@ -67,6 +74,10 @@ class AllRoutes {
     GetPage(
       name: CampaignDetails.routeName,
       page: () => const CampaignDetails(),
+    ),
+    GetPage(
+      name: WarrantyScreen.routeName,
+      page: () => const WarrantyScreen(),
     ),
   ];
 }

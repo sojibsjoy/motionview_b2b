@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dogventurehq/states/data/prefs.dart';
+import 'package:dogventurehq/states/models/login.dart';
 import 'package:dogventurehq/ui/screens/campaign/campaign.dart';
 import 'package:dogventurehq/ui/screens/login/login.dart';
 import 'package:dogventurehq/ui/screens/party_ledger/party_ledger.dart';
@@ -7,6 +8,7 @@ import 'package:dogventurehq/ui/screens/products/products.dart';
 import 'package:dogventurehq/ui/screens/purchase/purchase.dart';
 import 'package:dogventurehq/ui/screens/return_management/return_management.dart';
 import 'package:dogventurehq/ui/screens/stock_management/stock_management.dart';
+import 'package:dogventurehq/ui/screens/warranty/warranty.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,7 @@ class _MenuScreenState extends State<MenuScreen> {
     'assets/icons/return.png',
     'assets/icons/money_receipt.png',
     'assets/icons/campaign.png',
+    'assets/icons/warranty.png',
   ];
 
   List<String> menuTitles = [
@@ -46,6 +49,7 @@ class _MenuScreenState extends State<MenuScreen> {
     'Return Management',
     'Money Receipt',
     'Campaign',
+    'Warranty',
   ];
 
   List<VoidCallback> menuOnTapFn = [
@@ -59,10 +63,14 @@ class _MenuScreenState extends State<MenuScreen> {
     () => Get.toNamed(ReturnManagementScreen.routeName),
     () {},
     () => Get.toNamed(CampaignScreen.routeName),
+    () => Get.toNamed(WarrantyScreen.routeName),
   ];
+
+  late LoginModel _userInfo;
 
   @override
   void initState() {
+    _userInfo = Preference.getUserDetails();
     super.initState();
   }
 
@@ -93,7 +101,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Md. Sojib Sarker',
+                          _userInfo.data.name,
                           style: TextStyle(
                             fontSize: 16.sp,
                             color: Colors.white,
@@ -102,7 +110,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         ),
                         addH(3.h),
                         Text(
-                          'sojib.vu@gmail.com',
+                          _userInfo.data.designation,
                           style: TextStyle(
                             fontSize: 14.sp,
                             color: Colors.white,

@@ -43,7 +43,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     _authCon.isLoggingIn.listen((value) {
       if (!value && _authCon.isLoggedIn.value) {
-        Preference.setLoggedInFlag(true);
         Preference.setDealerFlag(_dealerFlag);
         Get.offAllNamed(DrawerSetup.routeName);
       }

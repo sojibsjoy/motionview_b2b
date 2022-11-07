@@ -2,7 +2,6 @@ import 'package:dogventurehq/constants/colors.dart';
 import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:dogventurehq/ui/screens/home/custom_appbar.dart';
 import 'package:dogventurehq/ui/screens/home/searchbar_design.dart';
-import 'package:dogventurehq/ui/screens/ledger_details/statement_sheet.dart';
 import 'package:dogventurehq/ui/screens/ledger_details/sub_row.dart';
 import 'package:dogventurehq/ui/screens/ledger_details/total_con.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
@@ -310,20 +309,23 @@ class _LedgerDetailsScreenState extends State<LedgerDetailsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               TotalCon(
-                                icon: Icons.download_rounded,
+                                icon: 'dabit',
                                 txt: 'Total Dabit',
+                                clr: Colors.amber,
                                 value: Methods.getFormatedPrice(totalDabit),
                                 index: 0,
                               ),
                               TotalCon(
-                                icon: Icons.upload_rounded,
+                                icon: 'credit',
                                 txt: 'Total Credit',
+                                clr: Colors.red,
                                 value: Methods.getFormatedPrice(totalCredit),
                                 index: 1,
                               ),
                               TotalCon(
-                                icon: Icons.assignment_turned_in_sharp,
+                                icon: 'balance',
                                 txt: 'Total Balance',
+                                clr: Colors.green,
                                 value: Methods.getFormatedPrice(totalBalance),
                                 index: 2,
                               ),
@@ -333,7 +335,7 @@ class _LedgerDetailsScreenState extends State<LedgerDetailsScreen> {
                       ),
                     ),
                     // statement sheet
-                    getBodyView(),
+                    // getBodyView(),
                   ],
                 ),
               ),
@@ -357,56 +359,57 @@ class _LedgerDetailsScreenState extends State<LedgerDetailsScreen> {
     );
   }
 
-  Widget getBodyView() {
-    switch (_selectedBtnIndex) {
-      case 0:
-        return StatementSheet(
-          statementTitleList: _statementTitles,
-          statementData: _statementData,
-          formatIndexNos: const [3, 4, 5],
-        );
-      case 1:
-        return StatementSheet(
-          statementTitleList: _purchaseStatementTitles,
-          statementData: _purchaseStatementData,
-          formatIndexNos: const [3],
-          txtClrIndex: 4,
-          onTapIndex: 4,
-        );
-      case 2:
-        return StatementSheet(
-          statementTitleList: _paymentStatementTitles,
-          statementData: _purchaseStatementData,
-          formatIndexNos: const [3],
-          txtClrIndex: 4,
-          onTapIndex: 4,
-        );
+  // Widget getBodyView() {
+  //   switch (_selectedBtnIndex) {
+  //     case 0:
+  //       return StatementSheet(
+  //         statementTitleList: _statementTitles,
+  //         statementData: _statementData,
+  //         formatIndexNos: const [3, 4, 5],
+  //         txtClrIndex: 2,
+  //       );
+  //     case 1:
+  //       return StatementSheet(
+  //         statementTitleList: _purchaseStatementTitles,
+  //         statementData: _purchaseStatementData,
+  //         formatIndexNos: const [3],
+  //         txtClrIndex: 4,
+  //         onTapIndex: 4,
+  //       );
+  //     case 2:
+  //       return StatementSheet(
+  //         statementTitleList: _paymentStatementTitles,
+  //         statementData: _purchaseStatementData,
+  //         formatIndexNos: const [3],
+  //         txtClrIndex: 4,
+  //         onTapIndex: 4,
+  //       );
 
-      case 3:
-        return StatementSheet(
-          statementTitleList: _returnStatementTitles,
-          statementData: _purchaseStatementData,
-          formatIndexNos: const [3],
-          txtClrIndex: 4,
-          onTapIndex: 4,
-        );
-      case 4:
-        return StatementSheet(
-          statementTitleList: _soldProductsTitles,
-          statementData: _soldProductsData,
-          formatIndexNos: const [3],
-          flxIndexNo: 1,
-          flx: 3,
-        );
-      default:
-        return StatementSheet(
-          statementTitleList: _soldProductsTitles,
-          statementData: _soldProductsData,
-          flxIndexNo: 1,
-          flx: 2,
-        );
-    }
-  }
+  //     case 3:
+  //       return StatementSheet(
+  //         statementTitleList: _returnStatementTitles,
+  //         statementData: _purchaseStatementData,
+  //         formatIndexNos: const [3],
+  //         txtClrIndex: 4,
+  //         onTapIndex: 4,
+  //       );
+  //     case 4:
+  //       return StatementSheet(
+  //         statementTitleList: _soldProductsTitles,
+  //         statementData: _soldProductsData,
+  //         formatIndexNos: const [3],
+  //         flxIndexNo: 1,
+  //         flx: 3,
+  //       );
+  //     default:
+  //       return StatementSheet(
+  //         statementTitleList: _soldProductsTitles,
+  //         statementData: _soldProductsData,
+  //         flxIndexNo: 1,
+  //         flx: 2,
+  //       );
+  //   }
+  // }
 
   Widget getNavView() {
     switch (_selectedBtnIndex) {

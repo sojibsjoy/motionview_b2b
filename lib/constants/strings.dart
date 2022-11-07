@@ -26,7 +26,14 @@ class ConstantStrings {
   static String kRetailerTrendingProducts = 'retailer/trending-products';
   static String kRetailerNewArrivalProducts = 'retailer/new-arrival-products';
   static String kRetailerUpcomingProducts = 'retailer/upcomming-products';
-  // https://b2b.motionview.com.bd/api/retailer/all-products?page=1&per_page=2&brand=&category=&search=
+  static String kRetailerOrderView = 'retailer/order-view';
+  static String kRetailerStock = 'retailer/get-stock';
+  static String kRetailerEOL = 'retailer/get-eol';
+  static String kRetailerReturnOrders = 'retailer/return/order-view';
+  static String kRetailerReturnProducts = 'retailer/return-products-view';
+
+  // common APIs
+  static String kPaymentMethods = 'payment-method';
 
   // error msgs
   static String kWentWrong = 'Something went wrong';

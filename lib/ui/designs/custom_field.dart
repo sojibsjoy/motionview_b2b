@@ -71,7 +71,7 @@ class _CustomFieldState extends State<CustomField> {
                   height: 20.h,
                   child: Center(
                     child: SvgPicture.asset(
-                      widget.prefixIcon!,
+                      'assets/svgs/${widget.prefixIcon!}.svg',
                       fit: BoxFit.cover,
                     ),
                   ),
