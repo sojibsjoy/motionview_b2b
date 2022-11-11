@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dogventurehq/states/data/prefs.dart';
 import 'package:dogventurehq/states/models/login.dart';
 import 'package:dogventurehq/ui/screens/campaign/campaign.dart';
+import 'package:dogventurehq/ui/screens/liabilities/liabilities.dart';
 import 'package:dogventurehq/ui/screens/login/login.dart';
 import 'package:dogventurehq/ui/screens/party_ledger/party_ledger.dart';
 import 'package:dogventurehq/ui/screens/products/products.dart';
@@ -24,12 +25,13 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  List<String> menuIcons = [
+  final List<String> _menuIcons = [
     'assets/icons/dashboard.png',
     'assets/icons/analitics.png',
     'assets/icons/retailer.png',
     'assets/icons/products.png',
     'assets/icons/purchase.png',
+    'assets/icons/party_ledger.png',
     'assets/icons/party_ledger.png',
     'assets/icons/stock.png',
     'assets/icons/return.png',
@@ -38,12 +40,13 @@ class _MenuScreenState extends State<MenuScreen> {
     'assets/icons/warranty.png',
   ];
 
-  List<String> menuTitles = [
+  final List<String> _menuTitles = [
     'Dashboard',
     'Analitics',
     'Retailer',
     'Products',
     'Purchase',
+    'Liabilities',
     'Party Ledger',
     'Stock Management',
     'Return Management',
@@ -52,13 +55,14 @@ class _MenuScreenState extends State<MenuScreen> {
     'Warranty',
   ];
 
-  List<VoidCallback> menuOnTapFn = [
+  final List<VoidCallback> _menuOnTapFn = [
     () {},
     () {},
     () {},
     () => Get.toNamed(ProductsScreen.routeName),
     () => Get.toNamed(PurchaseScreen.routeName),
-    () => Get.toNamed(PartyLedger.routeName),
+    () => Get.toNamed(LiabilitiesScreen.routeName),
+    () => Get.toNamed(PartyLedgerScreen.routeName),
     () => Get.toNamed(StockManagementScreen.routeName),
     () => Get.toNamed(ReturnManagementScreen.routeName),
     () {},
@@ -67,15 +71,25 @@ class _MenuScreenState extends State<MenuScreen> {
   ];
 
   late LoginModel _userInfo;
+  bool _dealerFlag = false;
 
   @override
   void initState() {
     _userInfo = Preference.getUserDetails();
+    _dealerFlag = Preference.getDealerFlag();
+    if (!_dealerFlag) {
+      _menuIcons.removeAt(6);
+      _menuTitles.removeAt(6);
+      _menuOnTapFn.removeAt(6);
+    }
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    // it will close the drawer as dashboard will appear on the homescreen
+    _menuOnTapFn[0] = () => ZoomDrawer.of(context)!.close();
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -136,18 +150,18 @@ class _MenuScreenState extends State<MenuScreen> {
                 child: Center(
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: menuIcons.length,
+                    itemCount: _menuIcons.length,
                     itemBuilder: (context, index) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           buildMenuItems(
-                            icon: menuIcons[index],
-                            title: menuTitles[index],
-                            onTapFn: menuOnTapFn[index],
+                            icon: _menuIcons[index],
+                            title: _menuTitles[index],
+                            onTapFn: _menuOnTapFn[index],
                           ),
-                          if (index != (menuIcons.length - 1)) addH(13.h),
+                          if (index != (_menuIcons.length - 1)) addH(13.h),
                         ],
                       );
                     },

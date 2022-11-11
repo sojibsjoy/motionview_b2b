@@ -19,6 +19,7 @@ class ConstantStrings {
   static String kDealerTrendingProducts = 'dealer/trending-products';
   static String kDealerNewArrivalProducts = 'dealer/new-arrival-products';
   static String kDealerUpcomingProducts = 'dealer/upcomming-products';
+  static String kDealerLedger = 'dealer/ledger-index';
 
   // retailer APIs
   static String kRetailerLogin = 'retailer/login';
@@ -31,6 +32,7 @@ class ConstantStrings {
   static String kRetailerEOL = 'retailer/get-eol';
   static String kRetailerReturnOrders = 'retailer/return/order-view';
   static String kRetailerReturnProducts = 'retailer/return-products-view';
+  static String kRetailerLedger = 'retailer/ledger/index';
 
   // common APIs
   static String kPaymentMethods = 'payment-method';

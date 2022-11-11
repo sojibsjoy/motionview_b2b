@@ -1,5 +1,6 @@
 import 'package:dogventurehq/states/bindings/auth.dart';
 import 'package:dogventurehq/states/bindings/initial.dart';
+import 'package:dogventurehq/states/bindings/ledger.dart';
 import 'package:dogventurehq/states/bindings/product.dart';
 import 'package:dogventurehq/states/bindings/purchase.dart';
 import 'package:dogventurehq/states/bindings/return.dart';
@@ -8,6 +9,7 @@ import 'package:dogventurehq/ui/screens/campaign/campaign.dart';
 import 'package:dogventurehq/ui/screens/campaign_details/campaign_details.dart';
 import 'package:dogventurehq/ui/screens/drawer.dart';
 import 'package:dogventurehq/ui/screens/ledger_details/ledger_details.dart';
+import 'package:dogventurehq/ui/screens/liabilities/liabilities.dart';
 import 'package:dogventurehq/ui/screens/login/login.dart';
 import 'package:dogventurehq/ui/screens/onboard/onboard.dart';
 import 'package:dogventurehq/ui/screens/party_ledger/party_ledger.dart';
@@ -50,8 +52,14 @@ class AllRoutes {
       binding: PurchaseBinding(),
     ),
     GetPage(
-      name: PartyLedger.routeName,
-      page: () => const PartyLedger(),
+      name: LiabilitiesScreen.routeName,
+      page: () => const LiabilitiesScreen(),
+      binding: LedgerBinding(),
+    ),
+    GetPage(
+      name: PartyLedgerScreen.routeName,
+      page: () => const PartyLedgerScreen(),
+      binding: LedgerBinding(),
     ),
     GetPage(
       name: LedgerDetailsScreen.routeName,

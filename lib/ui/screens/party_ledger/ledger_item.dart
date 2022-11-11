@@ -1,3 +1,5 @@
+import 'package:dogventurehq/states/models/dealer_ledger.dart';
+import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:dogventurehq/ui/screens/ledger_details/ledger_details.dart';
 import 'package:dogventurehq/ui/screens/products/product_price.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
@@ -7,7 +9,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class LedgerItem extends StatelessWidget {
-  const LedgerItem({Key? key}) : super(key: key);
+  final DLedgerModel dlModel;
+  const LedgerItem({
+    Key? key,
+    required this.dlModel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +24,7 @@ class LedgerItem extends StatelessWidget {
       child: Container(
         width: 375.w,
         height: 95.h,
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
         margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
         decoration: BoxDecoration(
           color: Colors.grey.shade200,
@@ -27,24 +33,24 @@ class LedgerItem extends StatelessWidget {
         child: Row(
           children: [
             // party image
-            Container(
-              width: 60.w,
-              height: 60.h,
-              margin: EdgeInsets.only(right: 10.w),
-              decoration: BoxDecoration(
-                color: Colors.pink,
-                borderRadius: BorderRadius.circular(5.r),
-              ),
-            ),
+            // Container(
+            //   width: 60.w,
+            //   height: 60.h,
+            //   margin: EdgeInsets.only(right: 10.w),
+            //   decoration: BoxDecoration(
+            //     color: Colors.pink,
+            //     borderRadius: BorderRadius.circular(5.r),
+            //   ),
+            // ),
             // party details
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // party name & credit
-                const Text(
-                  'Star Tech Ltd.',
-                  style: TextStyle(
+                Text(
+                  dlModel.name,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -57,7 +63,7 @@ class LedgerItem extends StatelessWidget {
                     ),
                     addW(5.w),
                     Text(
-                      'Dhaka',
+                      dlModel.address,
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w500,
@@ -69,16 +75,16 @@ class LedgerItem extends StatelessWidget {
                   children: [
                     addW(5.w),
                     //  credit
-                    const ProductPrice(
+                    ProductPrice(
                       prefix: 'Credit',
-                      price: '43,990',
+                      price: Methods.getFormatedPrice(dlModel.credit),
                       txtClr: Colors.red,
                     ),
                     addW(10.w),
                     //  credit limit
-                    const ProductPrice(
+                    ProductPrice(
                       prefix: 'Limit',
-                      price: '50,990',
+                      price: Methods.getFormatedPrice(dlModel.creditLimit),
                       txtClr: Colors.red,
                     ),
                   ],
@@ -88,24 +94,26 @@ class LedgerItem extends StatelessWidget {
             const Spacer(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const ProductPrice(
+                ProductPrice(
                   prefix: 'Target',
-                  price: '40,890',
+                  price: Methods.getFormatedPrice(dlModel.target),
+                  // price: '99,99,99,999',
                   txtClr: Colors.purple,
                 ),
                 addW(10.w),
-                const ProductPrice(
+                ProductPrice(
                   prefix: 'Sales  ',
-                  price: '43,990',
-                  txtClr: Color(0xFF4DC016),
+                  price: Methods.getFormatedPrice(dlModel.achived),
+                  txtClr: const Color(0xFF4DC016),
                 ),
                 addW(10.w),
-                const ProductPrice(
+                ProductPrice(
                   prefix: 'Achived:',
-                  price: '79%',
-                  txtClr: Color(0xFF4DC016),
+                  price:
+                      '${((dlModel.achived <= 0 ? 1 : dlModel.achived * dlModel.target <= 0 ? 1 : dlModel.target) * 100)}%',
+                  txtClr: const Color(0xFF4DC016),
                 ),
               ],
             )

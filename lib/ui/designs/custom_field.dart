@@ -106,7 +106,7 @@ class _CustomFieldState extends State<CustomField> {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(5.0),
       borderSide: BorderSide(
-        color: widget.brdrClr ?? Colors.grey.shade300,
+        color: widget.brdrClr ?? Colors.grey.shade400,
         width: 1,
       ),
     );

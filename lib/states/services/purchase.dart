@@ -2,7 +2,6 @@ import 'package:dogventurehq/constants/strings.dart';
 import 'package:dogventurehq/states/services/base_client.dart';
 
 class PurchaseService {
-  // Login Function
   static Future<dynamic> getOrders({
     required String usrToken,
     required bool dealerFlag,

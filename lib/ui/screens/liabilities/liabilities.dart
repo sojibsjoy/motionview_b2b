@@ -10,15 +10,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class PartyLedgerScreen extends StatefulWidget {
-  static String routeName = '/party_ledger';
-  const PartyLedgerScreen({super.key});
+class LiabilitiesScreen extends StatefulWidget {
+  static String routeName = '/liabilities';
+  const LiabilitiesScreen({super.key});
 
   @override
-  State<PartyLedgerScreen> createState() => _PartyLedgerScreenState();
+  State<LiabilitiesScreen> createState() => _LiabilitiesScreenState();
 }
 
-class _PartyLedgerScreenState extends State<PartyLedgerScreen> {
+class _LiabilitiesScreenState extends State<LiabilitiesScreen> {
   final LedgerController _lCon = Get.find<LedgerController>();
 
   late LoginModel _usrInfo;
@@ -43,7 +43,7 @@ class _PartyLedgerScreenState extends State<PartyLedgerScreen> {
           children: [
             // appbar
             CustomAppbar(
-              title: 'Party Ledger',
+              title: 'Liabilities',
             ),
             // search bar
             const SearchbarDesign(),

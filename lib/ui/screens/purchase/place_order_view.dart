@@ -1,6 +1,7 @@
 import 'package:dogventurehq/states/controllers/purchase.dart';
 import 'package:dogventurehq/states/models/payment_methods.dart';
 import 'package:dogventurehq/ui/designs/custom_dd.dart';
+import 'package:dogventurehq/ui/designs/custom_field.dart';
 import 'package:dogventurehq/ui/screens/purchase/dropdown_design.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:dogventurehq/ui/widgets/selection_product_list.dart';
@@ -20,6 +21,7 @@ class PlaceOrderView extends StatefulWidget {
 }
 
 class _PlaceOrderViewState extends State<PlaceOrderView> {
+  final TextEditingController _dAddCon = TextEditingController();
   final List<TextEditingController> _productQtyCon = List.empty(growable: true);
   final List<String> _products = List.empty(growable: true);
   final bool _campaignSelected = false;
@@ -69,66 +71,106 @@ class _PlaceOrderViewState extends State<PlaceOrderView> {
         // ),
         // addH(20.h),
         // payment method & delivery address
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // payment method
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Payment Methods'),
-                addH(10.h),
-                Obx(() {
-                  if (widget.pCon.pmLoading.value) {
-                    return DropdownDesign(
-                      title: 'Loading...',
-                      ddWidth: 190.w,
-                    );
-                  } else {
-                    if (widget.pCon.pmModel == null ||
-                        widget.pCon.pmModel!.data.isEmpty) {
-                      return DropdownDesign(
-                        title: 'No Methods Found!',
-                        ddWidth: 190.w,
-                      );
-                    } else {
-                      return CustomDD(
-                        givenValue: _selectedMethods,
-                        hintTxt: 'Select Methods',
-                        ddWidth: 190.w,
-                        items: widget.pCon.pmModel!.data.map((e) {
-                          return _getDDMenuItem(
-                            item: e,
-                            txt: e.name,
-                          );
-                        }).toList(),
-                        onChangedFn: (value) => setState(
-                          () => _selectedMethods = value,
-                        ),
-                      );
-                    }
-                  }
-                }),
-                // DropdownDesign(
-                //   title: 'via Bank',
-                //   ddWidth: 190.w,
-                // ),
-              ],
-            ),
-            // delivery store
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Delivery Address'),
-                addH(10.h),
-                DropdownDesign(
-                  title: 'Store 1',
-                  ddWidth: 190.w,
+        const Text('Payment Methods'),
+        addH(10.h),
+        Obx(() {
+          if (widget.pCon.pmLoading.value) {
+            return DropdownDesign(
+              title: 'Loading...',
+              // ddWidth: 190.w,
+            );
+          } else {
+            if (widget.pCon.pmModel == null ||
+                widget.pCon.pmModel!.data.isEmpty) {
+              return DropdownDesign(
+                title: 'No Methods Found!',
+                // ddWidth: 190.w,
+              );
+            } else {
+              return CustomDD(
+                givenValue: _selectedMethods,
+                hintTxt: 'Select Methods',
+                // ddWidth: 190.w,
+                items: widget.pCon.pmModel!.data.map((e) {
+                  return _getDDMenuItem(
+                    item: e,
+                    txt: e.name,
+                  );
+                }).toList(),
+                onChangedFn: (value) => setState(
+                  () => _selectedMethods = value,
                 ),
-              ],
-            ),
-          ],
+              );
+            }
+          }
+        }),
+        addH(10.h),
+        const Text('Delivery Address (Optional)'),
+        addH(10.h),
+        CustomField(
+          textCon: _dAddCon,
+          hintText: 'Ex: 10/95 Eastern Plaza, Hatirpool, Dhaka',
         ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     // payment method
+        //     Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         const Text('Payment Methods'),
+        //         addH(10.h),
+        //         Obx(() {
+        //           if (widget.pCon.pmLoading.value) {
+        //             return DropdownDesign(
+        //               title: 'Loading...',
+        //               ddWidth: 190.w,
+        //             );
+        //           } else {
+        //             if (widget.pCon.pmModel == null ||
+        //                 widget.pCon.pmModel!.data.isEmpty) {
+        //               return DropdownDesign(
+        //                 title: 'No Methods Found!',
+        //                 ddWidth: 190.w,
+        //               );
+        //             } else {
+        //               return CustomDD(
+        //                 givenValue: _selectedMethods,
+        //                 hintTxt: 'Select Methods',
+        //                 ddWidth: 190.w,
+        //                 items: widget.pCon.pmModel!.data.map((e) {
+        //                   return _getDDMenuItem(
+        //                     item: e,
+        //                     txt: e.name,
+        //                   );
+        //                 }).toList(),
+        //                 onChangedFn: (value) => setState(
+        //                   () => _selectedMethods = value,
+        //                 ),
+        //               );
+        //             }
+        //           }
+        //         }),
+        //         // DropdownDesign(
+        //         //   title: 'via Bank',
+        //         //   ddWidth: 190.w,
+        //         // ),
+        //       ],
+        //     ),
+        //     // delivery store
+        //     Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         const Text('Delivery Address'),
+        //         addH(10.h),
+        //         DropdownDesign(
+        //           title: 'Store 1',
+        //           ddWidth: 190.w,
+        //         ),
+        //       ],
+        //     ),
+        //   ],
+        // ),
         addH(10.h),
         const Divider(thickness: 1),
         addH(10.h),
