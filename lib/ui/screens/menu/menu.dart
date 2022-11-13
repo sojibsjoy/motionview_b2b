@@ -27,25 +27,26 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   final List<String> _menuIcons = [
     'assets/icons/dashboard.png',
-    'assets/icons/analitics.png',
-    'assets/icons/retailer.png',
     'assets/icons/products.png',
     'assets/icons/purchase.png',
-    'assets/icons/party_ledger.png',
+    'assets/icons/sale_out.png',
+    'assets/icons/sale_out.png',
+    'assets/icons/liabilities.png',
     'assets/icons/party_ledger.png',
     'assets/icons/stock.png',
     'assets/icons/return.png',
     'assets/icons/money_receipt.png',
     'assets/icons/campaign.png',
     'assets/icons/warranty.png',
+    'assets/icons/analitics.png',
   ];
 
   final List<String> _menuTitles = [
     'Dashboard',
-    'Analitics',
-    'Retailer',
     'Products',
     'Purchase',
+    'Sale Out',
+    'Sale Order',
     'Liabilities',
     'Party Ledger',
     'Stock Management',
@@ -53,14 +54,15 @@ class _MenuScreenState extends State<MenuScreen> {
     'Money Receipt',
     'Campaign',
     'Warranty',
+    'Analitics',
   ];
 
   final List<VoidCallback> _menuOnTapFn = [
     () {},
-    () {},
-    () {},
     () => Get.toNamed(ProductsScreen.routeName),
     () => Get.toNamed(PurchaseScreen.routeName),
+    () {},
+    () {},
     () => Get.toNamed(LiabilitiesScreen.routeName),
     () => Get.toNamed(PartyLedgerScreen.routeName),
     () => Get.toNamed(StockManagementScreen.routeName),
@@ -68,6 +70,7 @@ class _MenuScreenState extends State<MenuScreen> {
     () {},
     () => Get.toNamed(CampaignScreen.routeName),
     () => Get.toNamed(WarrantyScreen.routeName),
+    () {},
   ];
 
   late LoginModel _userInfo;
@@ -78,6 +81,12 @@ class _MenuScreenState extends State<MenuScreen> {
     _userInfo = Preference.getUserDetails();
     _dealerFlag = Preference.getDealerFlag();
     if (!_dealerFlag) {
+      // removing sale order
+      _menuIcons.removeAt(4);
+      _menuTitles.removeAt(4);
+      _menuOnTapFn.removeAt(4);
+
+      // removing party ledger
       _menuIcons.removeAt(6);
       _menuTitles.removeAt(6);
       _menuOnTapFn.removeAt(6);

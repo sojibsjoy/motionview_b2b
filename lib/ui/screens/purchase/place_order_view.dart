@@ -1,3 +1,4 @@
+import 'package:dogventurehq/constants/colors.dart';
 import 'package:dogventurehq/states/controllers/purchase.dart';
 import 'package:dogventurehq/states/models/payment_methods.dart';
 import 'package:dogventurehq/ui/designs/custom_dd.dart';
@@ -40,36 +41,46 @@ class _PlaceOrderViewState extends State<PlaceOrderView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         addH(20.h),
+        // only for dealer
         // eligible campaign
-        // const Text('Eligible Campaign'),
-        // addH(10.h),
+        const Text('Campaign Type'),
+        addH(10.h),
         // campaign dropdown and info btn
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //   children: [
-        //     // campaign dropdown
-        //     DropdownDesign(
-        //       title: 'Select Campaign',
-        //       ddWidth: 320.w,
-        //     ),
-        //     // campaign info button
-        //     Container(
-        //       height: 48.h,
-        //       width: 48.w,
-        //       decoration: BoxDecoration(
-        //         color: _campaignSelected
-        //             ? ConstantColors.primaryColor
-        //             : Colors.grey.shade400,
-        //         borderRadius: BorderRadius.circular(5.r),
-        //       ),
-        //       child: const Icon(
-        //         Icons.info_outline,
-        //         color: Colors.white,
-        //       ),
-        //     ),
-        //   ],
-        // ),
-        // addH(20.h),
+        DropdownDesign(
+          title: 'Select Campaign',
+          ddWidth: double.infinity,
+        ),
+        addH(20.h),
+        // eligible campaign
+        const Text('Available Campaigns'),
+        addH(10.h),
+        // campaign dropdown and info btn
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // campaign dropdown
+            DropdownDesign(
+              title: 'Select Campaign',
+              ddWidth: 320.w,
+            ),
+            // campaign info button
+            Container(
+              height: 48.h,
+              width: 48.w,
+              decoration: BoxDecoration(
+                color: _campaignSelected
+                    ? ConstantColors.primaryColor
+                    : Colors.grey.shade400,
+                borderRadius: BorderRadius.circular(5.r),
+              ),
+              child: const Icon(
+                Icons.info_outline,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        addH(20.h),
         // payment method & delivery address
         const Text('Payment Methods'),
         addH(10.h),

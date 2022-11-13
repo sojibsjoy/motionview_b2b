@@ -27,10 +27,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passCon = TextEditingController();
 
   bool _rememberMeFlag = false;
-
   // late StreamSubscription _subscription;
   // bool _isOffline = false;
-  bool _dealerFlag = true;
+  bool _dealerFlag = false;
 
   @override
   void initState() {
@@ -115,14 +114,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   Row(
                     children: [
                       TabbarItem(
-                        onTapFn: () => setState(() => _dealerFlag = true),
-                        title: 'Dealer',
-                        isSelected: _dealerFlag,
-                      ),
-                      TabbarItem(
                         onTapFn: () => setState(() => _dealerFlag = false),
                         title: 'Retailer',
                         isSelected: !_dealerFlag,
+                      ),
+                      TabbarItem(
+                        onTapFn: () => setState(() => _dealerFlag = true),
+                        title: 'Dealer',
+                        isSelected: _dealerFlag,
                       ),
                     ],
                   ),
@@ -235,39 +234,40 @@ class _LoginScreenState extends State<LoginScreen> {
                     btnSize: Size(double.infinity, 58.h),
                   ),
                   addH(180.h),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an acocunt?",
-                            style: TextStyle(
-                              color: context.isDarkMode
-                                  ? ConstantColors.kC0C0C4
-                                  : ConstantColors.kLightText,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            // onPressed: () =>
-                            //     Get.toNamed(RegisterScreen.routeName),
-                            child: Text(
-                              "Request Now!",
+                  if (!_dealerFlag)
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Don't have an acocunt?",
                               style: TextStyle(
+                                color: context.isDarkMode
+                                    ? ConstantColors.kC0C0C4
+                                    : ConstantColors.kLightText,
                                 fontSize: 16.sp,
-                                decoration: TextDecoration.underline,
-                                color: const Color(0xFF4A74FF),
+                                fontWeight: FontWeight.w300,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                            TextButton(
+                              onPressed: () {},
+                              // onPressed: () =>
+                              //     Get.toNamed(RegisterScreen.routeName),
+                              child: Text(
+                                "Request Now!",
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  decoration: TextDecoration.underline,
+                                  color: const Color(0xFF4A74FF),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                 ],
               ),
             ),
