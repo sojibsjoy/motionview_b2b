@@ -1,33 +1,33 @@
 import 'dart:convert';
 
-RetailerLedgersModel retailerLedgersModelFromJson(String str) =>
-    RetailerLedgersModel.fromJson(json.decode(str));
+RLiabilitiesModel retailerLedgersModelFromJson(String str) =>
+    RLiabilitiesModel.fromJson(json.decode(str));
 
-class RetailerLedgersModel {
-  RetailerLedgersModel({
+class RLiabilitiesModel {
+  RLiabilitiesModel({
     required this.data,
     required this.totalKpi,
     required this.totalDebit,
     required this.totalCredit,
   });
 
-  List<RLedgerModel> data;
+  List<RLiabilityModel> data;
   int totalKpi;
   int totalDebit;
   int totalCredit;
 
-  factory RetailerLedgersModel.fromJson(Map<String, dynamic> json) =>
-      RetailerLedgersModel(
-        data: List<RLedgerModel>.from(
-            json["data"].map((x) => RLedgerModel.fromJson(x))),
+  factory RLiabilitiesModel.fromJson(Map<String, dynamic> json) =>
+      RLiabilitiesModel(
+        data: List<RLiabilityModel>.from(
+            json["data"].map((x) => RLiabilityModel.fromJson(x))),
         totalKpi: json["total_kpi"],
         totalDebit: json["total_debit"],
         totalCredit: json["total_credit"],
       );
 }
 
-class RLedgerModel {
-  RLedgerModel({
+class RLiabilityModel {
+  RLiabilityModel({
     required this.dealer,
     required this.billNo,
     required this.debit,
@@ -45,7 +45,7 @@ class RLedgerModel {
   String paymentMethod;
   String date;
 
-  factory RLedgerModel.fromJson(Map<String, dynamic> json) => RLedgerModel(
+  factory RLiabilityModel.fromJson(Map<String, dynamic> json) => RLiabilityModel(
         dealer: json["dealer"],
         billNo: json["bill_no"],
         debit: json["debit"],

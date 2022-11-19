@@ -221,9 +221,9 @@ class _LedgerDetailsScreenState extends State<LedgerDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int totalDabit = 0;
-    int totalCredit = 0;
-    int totalBalance = 0;
+    double totalDabit = 0;
+    double totalCredit = 0;
+    double totalBalance = 0;
     for (int i = 0; i < _statementData[0].length; i++) {
       totalDabit += int.parse(_statementData[3][i]);
       totalCredit += int.parse(_statementData[4][i]);
@@ -421,7 +421,7 @@ class _LedgerDetailsScreenState extends State<LedgerDetailsScreen> {
           totalAmount += double.parse(_purchaseStatementData[3][i]);
         }
         return NavTotalView(
-          txt: 'Total Amount: ${Methods.getFormatedPrice(totalAmount.round())}',
+          txt: 'Total Amount: ${Methods.getFormatedPrice(totalAmount)}',
         );
       case 2:
         double totalAmount = 0;
@@ -429,7 +429,7 @@ class _LedgerDetailsScreenState extends State<LedgerDetailsScreen> {
           totalAmount += double.parse(_purchaseStatementData[3][i]);
         }
         return NavTotalView(
-          txt: 'Total Amount: ${Methods.getFormatedPrice(totalAmount.round())}',
+          txt: 'Total Amount: ${Methods.getFormatedPrice(totalAmount)}',
         );
       case 3:
         double totalAmount = 0;
@@ -437,7 +437,7 @@ class _LedgerDetailsScreenState extends State<LedgerDetailsScreen> {
           totalAmount += double.parse(_purchaseStatementData[3][i]);
         }
         return NavTotalView(
-          txt: 'Total Amount: ${Methods.getFormatedPrice(totalAmount.round())}',
+          txt: 'Total Amount: ${Methods.getFormatedPrice(totalAmount)}',
         );
       case 4:
         int totalQty = 0;
@@ -448,7 +448,7 @@ class _LedgerDetailsScreenState extends State<LedgerDetailsScreen> {
         }
         return NavTotalView(
           txt:
-              'Total QTY: $totalQty  |  Total Amount: ${Methods.getFormatedPrice(totalAmount.round())}',
+              'Total QTY: $totalQty  |  Total Amount: ${Methods.getFormatedPrice(totalAmount)}',
         );
       default:
         return const SizedBox.shrink();

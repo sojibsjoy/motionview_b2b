@@ -32,7 +32,7 @@ class Methods {
     );
   }
 
-  static String getFormatedPrice(int value) {
+  static String getFormatedPrice(double value) {
     return '৳${NumberFormat('#,##,###').format(value)}';
   }
 

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dogventurehq/states/models/dealer_ledger.dart';
-import 'package:dogventurehq/states/models/retailer_ledger.dart';
+import 'package:dogventurehq/states/models/r_liability.dart';
 import 'package:dogventurehq/states/services/ledger.dart';
 import 'package:get/state_manager.dart';
 
@@ -9,7 +9,7 @@ class LedgerController extends GetxController {
   RxBool ledgersLoading = true.obs;
 
   DealerLedgersModel? dlModel;
-  RetailerLedgersModel? rlModel;
+  RLiabilitiesModel? rlModel;
 
   void getLedgers({
     required String token,

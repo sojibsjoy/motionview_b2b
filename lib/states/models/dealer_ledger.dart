@@ -50,11 +50,11 @@ class DLedgerModel {
   String name;
   String url;
   String address;
-  int openningBalance;
-  int target;
-  int achived;
-  int creditLimit;
-  int credit;
+  double openningBalance;
+  double target;
+  double achived;
+  double creditLimit;
+  double credit;
   String remarks;
 
   factory DLedgerModel.fromJson(Map<String, dynamic> json) => DLedgerModel(

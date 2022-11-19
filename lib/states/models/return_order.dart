@@ -42,7 +42,7 @@ class ReturnOrder {
   String retailer;
   String campaign;
   String paymentType;
-  int amount;
+  double amount;
   Status status;
   String remarks;
 
@@ -53,7 +53,9 @@ class ReturnOrder {
         retailer: json["retailer"],
         campaign: json["campaign"],
         paymentType: json["payment_type"],
-        amount: json["amount"],
+        amount: json["amount"] == null
+            ? 0.0
+            : double.parse(json["amount"].toString()),
         status: Status.fromJson(json["status"]),
         remarks: json["remarks"] ?? '',
       );

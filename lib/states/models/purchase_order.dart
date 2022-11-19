@@ -42,7 +42,7 @@ class PurchaseOrderModel {
   String retailer;
   String campaign;
   String paymentType;
-  int amount;
+  double amount;
   Status status;
   String remarks;
 

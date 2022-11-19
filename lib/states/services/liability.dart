@@ -1,13 +1,13 @@
 import 'package:dogventurehq/constants/strings.dart';
 import 'package:dogventurehq/states/services/base_client.dart';
 
-class LedgerService {
-  static Future<dynamic> getLedgers({
+class LiabilityService {
+  // order function
+  static Future<dynamic> getLiabilities({
     required String usrToken,
     required bool dealerFlag,
-    int? billNo,
-    String? sDate,
-    String? eDate,
+    // bool? pFlag,
+    // bool? rsFlag,
   }) async {
     String apiLink = dealerFlag
         ? ConstantStrings.kDealerLedger
@@ -18,16 +18,13 @@ class LedgerService {
     //     "type": "pending",
     //   };
     // }
-    // if (sFlag != null) {
-    //   paramBody = {
-    //     "type": "shipped",
-    //   };
-    // }
-    // if (phFlag != null) {
+    // if (rsFlag != null) {
     //   paramBody = {
     //     "type": "history",
     //   };
     // }
+
+    print(apiLink);
 
     var response = await BaseClient.getData(
       token: usrToken,

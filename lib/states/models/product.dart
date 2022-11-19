@@ -47,11 +47,11 @@ class ProductModel {
   String brandId;
   String unitId;
   String warrantyId;
-  int dpPrice;
-  int rpPrice;
-  int mrpPrice;
+  double dpPrice;
+  double rpPrice;
+  double mrpPrice;
   String remarks;
-  int liftingPrice;
+  double liftingPrice;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json["id"],
@@ -62,11 +62,11 @@ class ProductModel {
         brandId: json["brand_id"],
         unitId: json["unit_id"],
         warrantyId: json["warranty_id"],
-        dpPrice: json["dp_price"] ?? -1,
+        dpPrice: json["dp_price"] ?? 0,
         rpPrice: json["rp_price"],
         mrpPrice: json["mrp_price"],
         remarks: json["remarks"] ?? '',
-        liftingPrice: json["lifting_price"] ?? -1,
+        liftingPrice: json["lifting_price"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {

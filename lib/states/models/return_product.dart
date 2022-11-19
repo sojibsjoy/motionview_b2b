@@ -40,12 +40,14 @@ class Datum {
 
   String product;
   String quantity;
-  int total;
+  double total;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         product: json["product"],
         quantity: json["quantity"],
-        total: json["total"],
+        total: json["total"] == null
+            ? 0.0
+            : double.parse(json["total"].toString()),
       );
 
   Map<String, dynamic> toJson() => {

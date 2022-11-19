@@ -86,13 +86,12 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
                       itemCount: _sCon.stocks!.data.length,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
-                        int eolTime = 0;
-                        if (_selectedBtnIndex == 1) {
-                          eolTime = _sCon.stocks!.data[index].eolDate
-                              .difference(DateTime.now())
-                              .inDays;
-                        }
-
+                        // int eolTime = 0;
+                        // if (_selectedBtnIndex == 1) {
+                        //   eolTime = _sCon.stocks!.data[index].eolDate
+                        //       .difference(DateTime.now())
+                        //       .inDays;
+                        // }
                         return ProductItem(
                           pImg: '',
                           pName: _sCon.stocks!.data[index].name,
@@ -111,9 +110,10 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
                               ? SizedBox(
                                   width: 200.w,
                                   child: Text(
-                                    eolTime <= 0
-                                        ? 'Product Expired!'
-                                        : 'Only $eolTime Days left',
+                                    'Expire Date: ${_sCon.stocks!.data[index].eolDate.split('-').reversed.join('/')}',
+                                    // eolTime <= 0
+                                    //     ? 'Product Expired!'
+                                    //     : 'Only $eolTime Days left',
                                     textAlign: TextAlign.end,
                                     style: TextStyle(
                                       fontSize: 12.sp,
@@ -169,8 +169,8 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
   }
 
   String getTotal() {
-    int totalS = 0;
-    int totalA = 0;
+    double totalS = 0;
+    double totalA = 0;
     for (int i = 0; i < _sCon.stocks!.data.length; i++) {
       totalA += _sCon.stocks!.data[i].mrpPrice;
       totalS += _sCon.stocks!.data[i].stockValue.stock;

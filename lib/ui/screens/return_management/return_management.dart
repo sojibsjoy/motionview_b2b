@@ -317,7 +317,7 @@ class _ReturnManagementScreenState extends State<ReturnManagementScreen> {
 
         return NavTotalView(
           txt:
-              'Total QTY: $totalQty  |  Total Amount: ${Methods.getFormatedPrice(totalAmount.round())}',
+              'Total QTY: $totalQty  |  Total Amount: ${Methods.getFormatedPrice(totalAmount)}',
         );
       default:
         return const SizedBox.shrink();

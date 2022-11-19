@@ -52,10 +52,11 @@ class StockModel {
   String unitId;
   String warrantyId;
   StockValue stockValue;
-  int rpPrice;
-  int mrpPrice;
+  double rpPrice;
+  double mrpPrice;
   String remarks;
-  DateTime eolDate;
+  // DateTime eolDate;
+  String eolDate;
 
   factory StockModel.fromJson(Map<String, dynamic> json) => StockModel(
         id: json["id"],
@@ -69,12 +70,14 @@ class StockModel {
         stockValue: json["stock_value"] == null
             ? StockValue(stock: 0, liftingPrice: 0)
             : StockValue.fromJson(json["stock_value"]),
-        rpPrice: json["rp_price"],
-        mrpPrice: json["mrp_price"],
+        rpPrice: json["rp_price"] == null
+            ? 0.0
+            : double.parse(json["rp_price"].toString()),
+        mrpPrice: json["mrp_price"] == null
+            ? 0.0
+            : double.parse(json["mrp_price"].toString()),
         remarks: json["remarks"] ?? '',
-        eolDate: json["eol_date"] == null
-            ? DateTime.now()
-            : DateTime.parse(json["eol_date"]),
+        eolDate: json["eol_date"] ?? '',
       );
 }
 
@@ -85,11 +88,13 @@ class StockValue {
   });
 
   int stock;
-  int liftingPrice;
+  double liftingPrice;
 
   factory StockValue.fromJson(Map<String, dynamic> json) => StockValue(
         stock: json["stock"],
-        liftingPrice: json["lifting_price"],
+        liftingPrice: json["lifting_price"] == null
+            ? 0.0
+            : double.parse(json["lifting_price"].toString()),
       );
 }
 

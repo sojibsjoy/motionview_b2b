@@ -87,9 +87,9 @@ class _MenuScreenState extends State<MenuScreen> {
       _menuOnTapFn.removeAt(4);
 
       // removing party ledger
-      _menuIcons.removeAt(6);
-      _menuTitles.removeAt(6);
-      _menuOnTapFn.removeAt(6);
+      _menuIcons.removeAt(5);
+      _menuTitles.removeAt(5);
+      _menuOnTapFn.removeAt(5);
     }
 
     super.initState();

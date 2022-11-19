@@ -10,10 +10,10 @@ class ProductItem extends StatelessWidget {
   final String pName;
   double? pNameW;
   bool? dealerFlag;
-  final int dpPrice;
-  final int liftingPrice;
-  final int rpPrice;
-  final int mrpPrice;
+  final double dpPrice;
+  final double liftingPrice;
+  final double rpPrice;
+  final double mrpPrice;
   Widget? w1;
   Widget? w2;
   Widget? w3;
