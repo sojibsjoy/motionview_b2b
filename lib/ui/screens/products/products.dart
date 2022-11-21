@@ -139,11 +139,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                       dpPrice: _productsCon
                                           .productsModel!.data[index].dpPrice,
                                       liftingPrice: _productsCon.productsModel!
-                                          .data[index].liftingPrice,
+                                          .data[index].liftingPrice
+                                          .toDouble(),
                                       rpPrice: _productsCon
-                                          .productsModel!.data[index].rpPrice,
+                                          .productsModel!.data[index].rpPrice
+                                          .toDouble(),
                                       mrpPrice: _productsCon
-                                          .productsModel!.data[index].mrpPrice,
+                                          .productsModel!.data[index].mrpPrice
+                                          .toDouble(),
                                     );
                                   },
                                 ),

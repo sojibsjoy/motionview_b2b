@@ -4,7 +4,9 @@ import 'package:dogventurehq/states/bindings/ledger.dart';
 import 'package:dogventurehq/states/bindings/product.dart';
 import 'package:dogventurehq/states/bindings/purchase.dart';
 import 'package:dogventurehq/states/bindings/return.dart';
+import 'package:dogventurehq/states/bindings/sale_out.dart';
 import 'package:dogventurehq/states/bindings/stock.dart';
+import 'package:dogventurehq/states/bindings/utility.dart';
 import 'package:dogventurehq/ui/screens/campaign/campaign.dart';
 import 'package:dogventurehq/ui/screens/campaign_details/campaign_details.dart';
 import 'package:dogventurehq/ui/screens/drawer.dart';
@@ -16,6 +18,7 @@ import 'package:dogventurehq/ui/screens/party_ledger/party_ledger.dart';
 import 'package:dogventurehq/ui/screens/products/products.dart';
 import 'package:dogventurehq/ui/screens/purchase/purchase.dart';
 import 'package:dogventurehq/ui/screens/return_management/return_management.dart';
+import 'package:dogventurehq/ui/screens/sale_out/sale_out.dart';
 import 'package:dogventurehq/ui/screens/splash/splash.dart';
 import 'package:dogventurehq/ui/screens/stock_management/stock_management.dart';
 import 'package:dogventurehq/ui/screens/warranty/warranty.dart';
@@ -49,7 +52,18 @@ class AllRoutes {
     GetPage(
       name: PurchaseScreen.routeName,
       page: () => const PurchaseScreen(),
-      binding: PurchaseBinding(),
+      bindings: [
+        PurchaseBinding(),
+        UtilityBinding(),
+      ],
+    ),
+    GetPage(
+      name: SaleOutScreen.routeName,
+      page: () => const SaleOutScreen(),
+      bindings: [
+        SaleOutBinding(),
+        UtilityBinding(),
+      ],
     ),
     GetPage(
       name: LiabilitiesScreen.routeName,

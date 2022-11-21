@@ -1,33 +1,51 @@
+import 'package:dogventurehq/states/models/product.dart';
+import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:dogventurehq/ui/designs/custom_field.dart';
 import 'package:dogventurehq/ui/screens/purchase/dropdown_design.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
+import 'package:dogventurehq/ui/widgets/product_search_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get/get.dart';
 
-class PlaceOrderItemDesign extends StatelessWidget {
-  final int index;
+class PlaceOrderItemDesign extends StatefulWidget {
   final VoidCallback deleteFn;
-  final String unitPrice;
-  final TextEditingController textCon;
+  final ProductModel pItem;
+  final Function(ProductModel) productSelectFn;
+  final VoidCallback qtyCngFn;
   const PlaceOrderItemDesign({
     Key? key,
-    required this.index,
     required this.deleteFn,
-    required this.unitPrice,
-    required this.textCon,
+    required this.pItem,
+    required this.productSelectFn,
+    required this.qtyCngFn,
   }) : super(key: key);
 
   @override
+  State<PlaceOrderItemDesign> createState() => _PlaceOrderItemDesignState();
+}
+
+class _PlaceOrderItemDesignState extends State<PlaceOrderItemDesign> {
+  final TextEditingController _qtyCon = TextEditingController();
+  int _subTotal = 0;
+  @override
+  void initState() {
+    _qtyCon.text = widget.pItem.qty.toString();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _subTotal = widget.pItem.qty * widget.pItem.mrpPrice;
     return Slidable(
-      key: Key('$index'),
+      key: Key(widget.pItem.productNo),
       endActionPane: ActionPane(
         extentRatio: 0.17,
         motion: const ScrollMotion(),
         children: [
           InkWell(
-            onTap: deleteFn,
+            onTap: widget.deleteFn,
             child: Container(
               width: 60.w,
               height: 125.h,
@@ -63,23 +81,57 @@ class PlaceOrderItemDesign extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // product dd
-            DropdownDesign(title: 'Select Product'),
+            InkWell(
+              onTap: () => Get.defaultDialog(
+                title: '',
+                titlePadding: EdgeInsets.zero,
+                contentPadding: EdgeInsets.zero,
+                backgroundColor: Colors.transparent,
+                content: ProductSearchDialog(
+                  onSelectFn: (value) => setState(() {
+                    widget.productSelectFn(value);
+                    widget.qtyCngFn();
+                  }),
+                ),
+              ),
+              child: DropdownDesign(
+                title: widget.pItem.name,
+              ),
+            ),
             // qty, unit price & sub total
             Row(
               children: [
                 Flexible(
                   flex: 1,
                   child: CustomField(
-                    textCon: textCon,
+                    textCon: _qtyCon,
                     hintText: 'QTY',
                     fillClr: Colors.white,
                     inputType: TextInputType.number,
+                    onCngdFn: (value) => setState(() {
+                      if (value.isNotEmpty) {
+                        widget.pItem.qty = int.parse(value);
+                        _subTotal = widget.pItem.qty * widget.pItem.mrpPrice;
+                      } else {
+                        widget.pItem.qty = 0;
+                        _subTotal = 0;
+                      }
+                      widget.qtyCngFn();
+                    }),
                   ),
                 ),
                 addW(5.w),
-                ExpandedCon(price: unitPrice),
+                ExpandedCon(
+                  price: Methods.getFormatedPrice(
+                    widget.pItem.mrpPrice.toDouble(),
+                  ),
+                ),
                 addW(5.w),
-                ExpandedCon(price: textCon.text * int.parse(unitPrice)),
+                ExpandedCon(
+                  price: Methods.getFormatedPrice(
+                    _subTotal.toDouble(),
+                  ),
+                ),
               ],
             )
           ],

@@ -35,6 +35,7 @@ class ProductModel {
     required this.dpPrice,
     required this.rpPrice,
     required this.mrpPrice,
+    required this.qty,
     required this.remarks,
     required this.liftingPrice,
   });
@@ -48,10 +49,11 @@ class ProductModel {
   String unitId;
   String warrantyId;
   double dpPrice;
-  double rpPrice;
-  double mrpPrice;
+  int rpPrice;
+  int mrpPrice;
+  int qty;
   String remarks;
-  double liftingPrice;
+  int liftingPrice;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json["id"],
@@ -65,6 +67,7 @@ class ProductModel {
         dpPrice: json["dp_price"] ?? 0,
         rpPrice: json["rp_price"],
         mrpPrice: json["mrp_price"],
+        qty: 1,
         remarks: json["remarks"] ?? '',
         liftingPrice: json["lifting_price"] ?? 0,
       );

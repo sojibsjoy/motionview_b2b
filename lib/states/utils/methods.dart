@@ -1,3 +1,5 @@
+import 'package:dogventurehq/ui/widgets/helper.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -46,4 +48,24 @@ class Methods {
   }
 
   static void hideLoading() => EasyLoading.dismiss();
+
+  static DropdownMenuItem<dynamic> getDDMenuItem({
+    required dynamic item,
+    required String txt,
+  }) {
+    return DropdownMenuItem(
+      value: item,
+      child: Row(
+        children: [
+          addW(15.w),
+          Text(
+            txt,
+            style: TextStyle(
+              fontSize: 16.sp,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

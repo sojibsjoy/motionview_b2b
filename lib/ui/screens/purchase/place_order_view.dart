@@ -1,14 +1,12 @@
 import 'package:dogventurehq/constants/colors.dart';
 import 'package:dogventurehq/states/controllers/purchase.dart';
 import 'package:dogventurehq/states/models/payment_methods.dart';
-import 'package:dogventurehq/ui/designs/custom_dd.dart';
 import 'package:dogventurehq/ui/designs/custom_field.dart';
 import 'package:dogventurehq/ui/screens/purchase/dropdown_design.dart';
+import 'package:dogventurehq/ui/utility/payment_methods_dd.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
-import 'package:dogventurehq/ui/widgets/selection_product_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class PlaceOrderView extends StatefulWidget {
   final PurchaseController pCon;
@@ -84,38 +82,12 @@ class _PlaceOrderViewState extends State<PlaceOrderView> {
         // payment method & delivery address
         const Text('Payment Methods'),
         addH(10.h),
-        Obx(() {
-          if (widget.pCon.pmLoading.value) {
-            return DropdownDesign(
-              title: 'Loading...',
-              // ddWidth: 190.w,
-            );
-          } else {
-            if (widget.pCon.pmModel == null ||
-                widget.pCon.pmModel!.data.isEmpty) {
-              return DropdownDesign(
-                title: 'No Methods Found!',
-                // ddWidth: 190.w,
-              );
-            } else {
-              return CustomDD(
-                givenValue: _selectedMethods,
-                hintTxt: 'Select Methods',
-                // ddWidth: 190.w,
-                items: widget.pCon.pmModel!.data.map((e) {
-                  return _getDDMenuItem(
-                    item: e,
-                    txt: e.name,
-                  );
-                }).toList(),
-                onChangedFn: (value) => setState(
-                  () => _selectedMethods = value,
-                ),
-              );
-            }
-          }
-        }),
-        addH(10.h),
+        PaymentMethodsDD(
+          getMethods: (value) => setState(
+            () => _selectedMethods = value,
+          ),
+        ),
+        addH(20.h),
         const Text('Delivery Address (Optional)'),
         addH(10.h),
         CustomField(
@@ -150,7 +122,7 @@ class _PlaceOrderViewState extends State<PlaceOrderView> {
         //                 hintTxt: 'Select Methods',
         //                 ddWidth: 190.w,
         //                 items: widget.pCon.pmModel!.data.map((e) {
-        //                   return _getDDMenuItem(
+        //                   return Methods.getDDMenuItem(
         //                     item: e,
         //                     txt: e.name,
         //                   );
@@ -186,28 +158,8 @@ class _PlaceOrderViewState extends State<PlaceOrderView> {
         const Divider(thickness: 1),
         addH(10.h),
         // selected product list
-        const SelectionProductList(),
+        // const SelectionProductList(),
       ],
-    );
-  }
-
-  DropdownMenuItem<dynamic> _getDDMenuItem({
-    required dynamic item,
-    required String txt,
-  }) {
-    return DropdownMenuItem(
-      value: item,
-      child: Row(
-        children: [
-          addW(15.w),
-          Text(
-            txt,
-            style: TextStyle(
-              fontSize: 16.sp,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:dogventurehq/ui/screens/party_ledger/party_ledger.dart';
 import 'package:dogventurehq/ui/screens/products/products.dart';
 import 'package:dogventurehq/ui/screens/purchase/purchase.dart';
 import 'package:dogventurehq/ui/screens/return_management/return_management.dart';
+import 'package:dogventurehq/ui/screens/sale_out/sale_out.dart';
 import 'package:dogventurehq/ui/screens/stock_management/stock_management.dart';
 import 'package:dogventurehq/ui/screens/warranty/warranty.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
@@ -61,7 +62,7 @@ class _MenuScreenState extends State<MenuScreen> {
     () {},
     () => Get.toNamed(ProductsScreen.routeName),
     () => Get.toNamed(PurchaseScreen.routeName),
-    () {},
+    () => Get.toNamed(SaleOutScreen.routeName),
     () {},
     () => Get.toNamed(LiabilitiesScreen.routeName),
     () => Get.toNamed(PartyLedgerScreen.routeName),

@@ -14,6 +14,7 @@ class CustomField extends StatefulWidget {
   Color? fillClr;
   Color? brdrClr;
   double? txtSize;
+  Function(String)? onCngdFn;
   CustomField({
     Key? key,
     required this.textCon,
@@ -27,6 +28,7 @@ class CustomField extends StatefulWidget {
     this.fillClr,
     this.brdrClr,
     this.txtSize,
+    this.onCngdFn,
   }) : super(key: key);
 
   @override
@@ -98,6 +100,7 @@ class _CustomFieldState extends State<CustomField> {
                 )
               : null,
         ),
+        onChanged: widget.onCngdFn,
       ),
     );
   }

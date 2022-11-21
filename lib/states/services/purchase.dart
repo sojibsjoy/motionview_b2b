@@ -57,14 +57,4 @@ class PurchaseService {
     );
     return response;
   }
-
-  static Future<dynamic> getPaymentMethods({
-    required String token,
-  }) async {
-    var response = await BaseClient.getData(
-      api: ConstantStrings.kPaymentMethods,
-      token: token,
-    );
-    return response;
-  }
 }

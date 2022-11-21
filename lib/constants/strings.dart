@@ -33,6 +33,7 @@ class ConstantStrings {
   static String kRetailerReturnOrders = 'retailer/return/order-view';
   static String kRetailerReturnProducts = 'retailer/return-products-view';
   static String kRetailerLiabilities = 'retailer/ledger/index';
+  static String kRetailerSaleOut = 'retailer/sale-report/index';
 
   // common APIs
   static String kPaymentMethods = 'payment-method';

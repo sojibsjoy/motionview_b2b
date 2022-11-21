@@ -39,9 +39,6 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
   void initState() {
     _usrInfo = Preference.getUserDetails();
     _dealerFlag = Preference.getDealerFlag();
-    _purchaseCon.getPaymentMethods(
-      usrToken: _usrInfo.data.token,
-    );
     super.initState();
   }
 
