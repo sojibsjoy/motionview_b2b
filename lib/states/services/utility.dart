@@ -64,4 +64,18 @@ class UtilityService {
     );
     return response;
   }
+
+  static Future<dynamic> getCustomerList({
+    required String token,
+    required String sKeyword,
+  }) async {
+    var response = await BaseClient.getData(
+      api: ConstantStrings.kCustomerSearchByPhone,
+      token: token,
+      parameter: {
+        "phone": sKeyword,
+      },
+    );
+    return response;
+  }
 }

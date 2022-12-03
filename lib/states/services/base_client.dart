@@ -43,6 +43,7 @@ class BaseClient {
 
   static Future<dynamic> postData({
     required String api,
+    String? token,
     dynamic body,
     String? apiVersion,
   }) async {
@@ -50,10 +51,20 @@ class BaseClient {
     // String url = ConstantStrings.kBaseUrl + apiV + api;
     String url = ConstantStrings.kBaseUrl + api;
     print('Sending request to: $url');
+    if (token != null) {
+      print('User Token: $token');
+    }
     log("Post Body: $body");
     try {
       var response = await Dio().post(
         url,
+        options: token != null
+            ? Options(
+                headers: {
+                  'Authorization': 'Bearer $token',
+                },
+              )
+            : null,
         data: body,
       );
       print('POST Method: ${response.statusCode}');

@@ -6,7 +6,27 @@ import 'package:get/get.dart';
 
 class CampaignScreen extends StatelessWidget {
   static String routeName = '/campaign';
-  const CampaignScreen({super.key});
+  CampaignScreen({super.key});
+
+  final List<String> _campaignTypes = const [
+    'invoice_d',
+    'charger_c',
+    'tv_m',
+    'bundle_c',
+    'combo_c',
+    'sale_out',
+    'secondary_c',
+  ];
+
+  final List<VoidCallback> _campaignOnClickFn = [
+    () => Get.toNamed(CampaignDetails.routeName),
+    () => Get.toNamed(CampaignDetails.routeName),
+    () => Get.toNamed(CampaignDetails.routeName),
+    () => Get.toNamed(CampaignDetails.routeName),
+    () => Get.toNamed(CampaignDetails.routeName),
+    () => Get.toNamed(CampaignDetails.routeName),
+    () => Get.toNamed(CampaignDetails.routeName),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +39,7 @@ class CampaignScreen extends StatelessWidget {
             // campaign list
             Expanded(
               child: ListView.builder(
-                itemCount: 10,
+                itemCount: _campaignTypes.length,
                 shrinkWrap: true,
                 padding: EdgeInsets.symmetric(horizontal: 10.w),
                 itemBuilder: (BuildContext context, int index) {
@@ -28,11 +48,11 @@ class CampaignScreen extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.r),
                       child: InkWell(
-                        onTap: () => Get.toNamed(CampaignDetails.routeName),
+                        onTap: _campaignOnClickFn[index],
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         child: Image.asset(
-                          'assets/imgs/campaign.png',
+                          'assets/imgs/${_campaignTypes[index]}.png',
                         ),
                       ),
                     ),

@@ -37,7 +37,9 @@ class OrderItem extends StatelessWidget {
           ),
           ConRow(
             prefixTxt1: 'Amount: ',
-            prefixTxt2: Methods.getFormatedPrice(pOrderModel.amount),
+            prefixTxt2: Methods.getFormatedPrice(
+              pOrderModel.amount.toDouble(),
+            ),
             suffixChild: Container(
               width: 100.w,
               height: 25.h,

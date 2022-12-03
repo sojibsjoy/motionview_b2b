@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class DropdownDesign extends StatelessWidget {
     return Container(
       width: ddWidth ?? double.infinity,
       height: 48.h,
-      padding: EdgeInsets.symmetric(horizontal: 10.w),
+      padding: EdgeInsets.only(left: 10.w),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(color: Colors.grey.shade400),
@@ -24,11 +25,17 @@ class DropdownDesign extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.grey.shade800,
-              fontSize: 13.sp,
+          SizedBox(
+            width: ddWidth != null ? ddWidth! - 36 : 320.w,
+            child: AutoSizeText(
+              title,
+              overflow: TextOverflow.ellipsis,
+              minFontSize: 8,
+              maxLines: 1,
+              style: TextStyle(
+                color: Colors.grey.shade800,
+                fontSize: 13.sp,
+              ),
             ),
           ),
           Icon(

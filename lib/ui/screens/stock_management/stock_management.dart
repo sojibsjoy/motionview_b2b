@@ -36,6 +36,11 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
   void initState() {
     userInfo = Preference.getUserDetails();
     _dealerFlag = Preference.getDealerFlag();
+    _sCon.getEOl(
+      token: userInfo.data.token,
+      dealerFlag: _dealerFlag,
+      eolFlag: false,
+    );
     super.initState();
   }
 

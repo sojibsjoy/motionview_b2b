@@ -1,83 +1,83 @@
 import 'dart:convert';
 
-PurchaseOrdersModel purchaseOrdersModelFromJson(String str) =>
-    PurchaseOrdersModel.fromJson(json.decode(str));
+PurchasedProductsModel purchasedProductsModelFromJson(String str) =>
+    PurchasedProductsModel.fromJson(json.decode(str));
 
-class PurchaseOrdersModel {
-  PurchaseOrdersModel({
-    required this.data,
+class PurchasedProductsModel {
+  PurchasedProductsModel({
+    required this.purchasedProducts,
     required this.links,
     required this.meta,
   });
 
-  List<PurchaseOrderModel> data;
+  List<PurchasedProduct> purchasedProducts;
   Links links;
   Meta meta;
 
-  factory PurchaseOrdersModel.fromJson(Map<String, dynamic> json) =>
-      PurchaseOrdersModel(
-        data: List<PurchaseOrderModel>.from(
-            json["data"].map((x) => PurchaseOrderModel.fromJson(x))),
+  factory PurchasedProductsModel.fromJson(Map<String, dynamic> json) =>
+      PurchasedProductsModel(
+        purchasedProducts: List<PurchasedProduct>.from(
+            json["data"].map((x) => PurchasedProduct.fromJson(x))),
         links: Links.fromJson(json["links"]),
         meta: Meta.fromJson(json["meta"]),
       );
 }
 
-class PurchaseOrderModel {
-  PurchaseOrderModel({
+class PurchasedProduct {
+  PurchasedProduct({
     required this.id,
-    required this.date,
-    required this.orderNo,
-    required this.retailer,
-    required this.campaign,
-    required this.paymentType,
-    required this.amount,
-    required this.status,
+    required this.productNo,
+    required this.name,
+    required this.warrantyId,
+    required this.rpPrice,
+    required this.mrpPrice,
     required this.remarks,
+    required this.qty,
+    required this.slNos,
+    required this.selectedSlNos,
+    required this.liftingPrice,
   });
 
   int id;
-  String date;
-  String orderNo;
-  String retailer;
-  int campaign;
-  String paymentType;
-  int amount;
-  Status status;
+  String productNo;
+  String name;
+  String warrantyId;
+  int rpPrice;
+  int mrpPrice;
   String remarks;
+  int qty;
+  List<SlNo> slNos;
+  List<SlNo> selectedSlNos;
+  int liftingPrice;
 
-  factory PurchaseOrderModel.fromJson(Map<String, dynamic> json) =>
-      PurchaseOrderModel(
+  factory PurchasedProduct.fromJson(Map<String, dynamic> json) =>
+      PurchasedProduct(
         id: json["id"],
-        date: json["date"] ?? '',
-        orderNo: json["order_no"],
-        retailer: json["retailer"],
-        campaign: json["campaign"],
-        paymentType: json["payment_type"],
-        amount: json["amount"],
-        status: Status.fromJson(json["status"]),
+        productNo: json["product_no"],
+        name: json["name"],
+        warrantyId: json["warranty_id"],
+        rpPrice: json["rp_price"],
+        mrpPrice: json["mrp_price"],
         remarks: json["remarks"] ?? '',
+        qty: 1,
+        slNos: List<SlNo>.from(json["sn_no"].map((x) => SlNo.fromJson(x))),
+        selectedSlNos: List.empty(growable: true),
+        liftingPrice: json["lifting_price"],
       );
 }
 
-class Status {
-  Status({
+class SlNo {
+  SlNo({
     required this.id,
-    required this.name,
-    required this.color,
-    required this.status,
+    required this.serialNo,
   });
 
   int id;
-  String name;
-  String color;
-  String status;
+  String serialNo;
 
-  factory Status.fromJson(Map<String, dynamic> json) => Status(
+  factory SlNo.fromJson(Map<String, dynamic> json) => SlNo(
         id: json["id"],
-        name: json["name"],
-        color: json["color"],
-        status: json["status"] ?? '',
+        serialNo: json["serial_no"],
       );
 }
 
@@ -119,12 +119,12 @@ class Meta {
 
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
         currentPage: json["current_page"],
-        from: json["from"] ?? 0,
+        from: json["from"],
         lastPage: json["last_page"],
         links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
         path: json["path"],
         perPage: json["per_page"],
-        to: json["to"] ?? 0,
+        to: json["to"],
         total: json["total"],
       );
 }

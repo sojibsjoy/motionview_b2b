@@ -1,8 +1,7 @@
-import 'package:dogventurehq/constants/strings.dart';
-import 'package:dogventurehq/states/controllers/utility.dart';
+import 'package:dogventurehq/states/controllers/sale_out.dart';
 import 'package:dogventurehq/states/data/prefs.dart';
 import 'package:dogventurehq/states/models/login.dart';
-import 'package:dogventurehq/states/models/product.dart';
+import 'package:dogventurehq/states/models/purchased_product.dart';
 import 'package:dogventurehq/ui/designs/custom_field.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductSearchDialog extends StatefulWidget {
-  final Function(ProductModel) onSelectFn;
+  final Function(PurchasedProduct) onSelectFn;
   const ProductSearchDialog({
     Key? key,
     required this.onSelectFn,
@@ -21,9 +20,9 @@ class ProductSearchDialog extends StatefulWidget {
 }
 
 class _ProductSearchDialogState extends State<ProductSearchDialog> {
-  final UtilityController _uCon = Get.find<UtilityController>();
+  final SaleOutController _soCon = Get.find<SaleOutController>();
   final TextEditingController _searchCon = TextEditingController();
-  bool _isSearching = false;
+  final bool _isSearching = false;
   late LoginModel _usrInfo;
   bool _dFlag = false;
   @override
@@ -46,75 +45,62 @@ class _ProductSearchDialogState extends State<ProductSearchDialog> {
       child: Column(
         children: [
           Text(
-            "Select Product",
+            "Available Product",
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
           addH(10.h),
+          // number field
           CustomField(
             textCon: _searchCon,
             hintText: 'Search products by name...',
+            inputType: TextInputType.number,
             onCngdFn: (value) {
-              if (value.length >= 2) {
-                _uCon.getAllProducts(
-                  token: _usrInfo.data.token,
-                  dealerFlag: _dFlag,
-                  search: value,
-                );
-                _isSearching = true;
-              } else {
-                _uCon.productsModel = null;
-              }
+              // if (value.length >= 2) {
+              //   _soCon.getAllProducts(
+              //     token: _usrInfo.data.token,
+              //     dealerFlag: _dFlag,
+              //     search: value,
+              //   );
+              //   _isSearching = true;
+              // } else {
+              //   _soCon.productsModel = null;
+              // }
             },
           ),
           addH(10.h),
           Expanded(
             child: SizedBox(
               width: 388.w,
-              child: Obx(() {
-                if (_uCon.productsLoading.value) {
-                  return Center(
-                    child: _isSearching
-                        ? const CircularProgressIndicator()
-                        : const SizedBox.shrink(),
+              child: ListView.builder(
+                shrinkWrap: true,
+                primary: false,
+                itemCount: _soCon.pProductsModel!.purchasedProducts.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: () {
+                      widget.onSelectFn(
+                        _soCon.pProductsModel!.purchasedProducts[index],
+                      );
+                      Get.back();
+                    },
+                    child: Container(
+                      height: 65.h,
+                      padding: EdgeInsets.all(10.w),
+                      margin: EdgeInsets.only(bottom: 10.h),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Text(
+                        _soCon.pProductsModel!.purchasedProducts[index].name,
+                      ),
+                    ),
                   );
-                } else {
-                  if (_uCon.productsModel == null &&
-                      _uCon.productsModel!.data.isEmpty) {
-                    return Text(ConstantStrings.kNoData);
-                  } else {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      primary: false,
-                      itemCount: _uCon.productsModel!.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return InkWell(
-                          onTap: () {
-                            widget.onSelectFn(
-                              _uCon.productsModel!.data[index],
-                            );
-                            Get.back();
-                          },
-                          child: Container(
-                            height: 50.h,
-                            padding: EdgeInsets.all(10.w),
-                            margin: EdgeInsets.only(bottom: 10.h),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            child: Text(
-                              _uCon.productsModel!.data[index].name,
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  }
-                }
-              }),
+                },
+              ),
             ),
           )
         ],

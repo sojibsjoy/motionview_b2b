@@ -91,7 +91,7 @@ class AllRoutes {
     ),
     GetPage(
       name: CampaignScreen.routeName,
-      page: () => const CampaignScreen(),
+      page: () => CampaignScreen(),
     ),
     GetPage(
       name: CampaignDetails.routeName,

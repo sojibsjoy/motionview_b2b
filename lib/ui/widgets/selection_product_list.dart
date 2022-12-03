@@ -1,4 +1,5 @@
-import 'package:dogventurehq/states/models/product.dart';
+import 'package:dogventurehq/states/models/purchased_product.dart';
+import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:dogventurehq/ui/screens/purchase/place_order_item_design.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +9,13 @@ class SelectionProductList extends StatefulWidget {
   final bool dFlag;
   final Function(int) totalQty;
   final Function(int) totalAmount;
+  final Function(List<PurchasedProduct>) allProducts;
   const SelectionProductList({
     super.key,
     required this.token,
     required this.dFlag,
     required this.totalQty,
+    required this.allProducts,
     required this.totalAmount,
   });
 
@@ -21,21 +24,18 @@ class SelectionProductList extends StatefulWidget {
 }
 
 class _SelectionProductListState extends State<SelectionProductList> {
-  final List<ProductModel> _products = List.empty(growable: true);
-  final ProductModel _dummyProduct = ProductModel(
+  final List<PurchasedProduct> _products = List.empty(growable: true);
+  final PurchasedProduct _dummyProduct = PurchasedProduct(
     id: 0,
-    productNo: 'prod',
+    productNo: "Unknown",
     name: 'Select Product',
-    url: 'fjlk',
-    categoryId: 'kjl',
-    brandId: 'fdfdk',
-    unitId: 'kjdlaf',
-    warrantyId: 'lkjdla',
-    dpPrice: 0,
+    warrantyId: 'Unknown',
     rpPrice: 0,
     mrpPrice: 0,
+    remarks: 'Unknown',
     qty: 1,
-    remarks: 'k good',
+    slNos: [],
+    selectedSlNos: List.empty(growable: true),
     liftingPrice: 0,
   );
 
@@ -52,36 +52,34 @@ class _SelectionProductListState extends State<SelectionProductList> {
         return InkWell(
           onTap: () {},
           child: PlaceOrderItemDesign(
-            deleteFn: () => setState(
-              () => _products.remove(e),
-            ),
+            iNo: _products.indexOf(e),
+            deleteFn: () => setState(() {
+              _products.remove(e);
+              updateAllValues();
+            }),
             pItem: e,
             productSelectFn: (value) => setState(() {
-              _products[_products.indexOf(e)] = value;
-
-              // int tAmount = 0;
-              // for(ProductModel item in _products) {
-              //   tAmount =
-              // }
-              // widget.totalQty(_)
-            }),
-            qtyCngFn: () => setState(() {
-              _totalQty = 0;
-              _totalAmount = 0;
-              for (ProductModel item in _products) {
-                _totalQty += item.qty;
-                _totalAmount += item.qty * item.mrpPrice;
+              if (_products[_products.indexOf(e)] != value &&
+                  !_products.contains(value)) {
+                _products[_products.indexOf(e)] = value;
+              } else {
+                Future.delayed(
+                  const Duration(milliseconds: 400),
+                  () => Methods.showSnackbar(
+                    title: 'Item already added!',
+                    msg: 'Please just update the quantity of that product.',
+                  ),
+                );
               }
-              widget.totalQty(_totalQty);
-              widget.totalAmount(_totalAmount);
             }),
+            qtyCngFn: () => setState(() => updateAllValues()),
           ),
         );
       }).followedBy([
         InkWell(
           onTap: () => setState(() {
-            // TODO: need to add so many logic to prevent multiple empty item
             _products.add(_dummyProduct);
+            updateAllValues();
           }),
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
@@ -110,5 +108,17 @@ class _SelectionProductListState extends State<SelectionProductList> {
         ),
       ]).toList(),
     );
+  }
+
+  void updateAllValues() {
+    _totalQty = 0;
+    _totalAmount = 0;
+    for (PurchasedProduct item in _products) {
+      _totalQty += item.qty;
+      _totalAmount += item.qty * item.mrpPrice;
+    }
+    widget.totalQty(_totalQty);
+    widget.totalAmount(_totalAmount);
+    widget.allProducts(_products);
   }
 }

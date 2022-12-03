@@ -46,7 +46,7 @@ class _PlaceOrderViewState extends State<PlaceOrderView> {
         // campaign dropdown and info btn
         DropdownDesign(
           title: 'Select Campaign',
-          ddWidth: double.infinity,
+          ddWidth: 388.w,
         ),
         addH(20.h),
         // eligible campaign

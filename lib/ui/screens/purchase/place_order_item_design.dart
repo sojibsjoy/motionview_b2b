@@ -1,21 +1,25 @@
-import 'package:dogventurehq/states/models/product.dart';
+import 'package:dogventurehq/states/models/purchased_product.dart';
 import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:dogventurehq/ui/designs/custom_field.dart';
 import 'package:dogventurehq/ui/screens/purchase/dropdown_design.dart';
+import 'package:dogventurehq/ui/screens/warranty/field_title.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:dogventurehq/ui/widgets/product_search_dialog.dart';
+import 'package:dogventurehq/ui/widgets/product_sl_no_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 
 class PlaceOrderItemDesign extends StatefulWidget {
+  final int iNo;
   final VoidCallback deleteFn;
-  final ProductModel pItem;
-  final Function(ProductModel) productSelectFn;
+  final PurchasedProduct pItem;
+  final Function(PurchasedProduct) productSelectFn;
   final VoidCallback qtyCngFn;
   const PlaceOrderItemDesign({
     Key? key,
+    required this.iNo,
     required this.deleteFn,
     required this.pItem,
     required this.productSelectFn,
@@ -39,7 +43,7 @@ class _PlaceOrderItemDesignState extends State<PlaceOrderItemDesign> {
   Widget build(BuildContext context) {
     _subTotal = widget.pItem.qty * widget.pItem.mrpPrice;
     return Slidable(
-      key: Key(widget.pItem.productNo),
+      key: Key('${widget.pItem.productNo}${widget.iNo}'),
       endActionPane: ActionPane(
         extentRatio: 0.17,
         motion: const ScrollMotion(),
@@ -70,7 +74,7 @@ class _PlaceOrderItemDesignState extends State<PlaceOrderItemDesign> {
         ],
       ),
       child: Container(
-        height: 126.h,
+        height: 200.h,
         padding: const EdgeInsets.all(8),
         margin: EdgeInsets.only(bottom: 10.h),
         decoration: BoxDecoration(
@@ -78,6 +82,7 @@ class _PlaceOrderItemDesignState extends State<PlaceOrderItemDesign> {
           borderRadius: BorderRadius.circular(5.r),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // product dd
@@ -109,6 +114,7 @@ class _PlaceOrderItemDesignState extends State<PlaceOrderItemDesign> {
                     fillClr: Colors.white,
                     inputType: TextInputType.number,
                     onCngdFn: (value) => setState(() {
+                      widget.pItem.selectedSlNos.clear();
                       if (value.isNotEmpty) {
                         widget.pItem.qty = int.parse(value);
                         _subTotal = widget.pItem.qty * widget.pItem.mrpPrice;
@@ -133,7 +139,104 @@ class _PlaceOrderItemDesignState extends State<PlaceOrderItemDesign> {
                   ),
                 ),
               ],
-            )
+            ),
+            // sl list
+            const FieldTitle(txt: 'Serial Numbers'),
+            Container(
+              width: double.infinity,
+              height: 50.h,
+              padding: EdgeInsets.all(5.w),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: ListView(
+                primary: false,
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                children: widget.pItem.selectedSlNos.map((e) {
+                  return InkWell(
+                    onTap: () => setState(
+                      () => widget.pItem.selectedSlNos.remove(e),
+                    ),
+                    child: Container(
+                      height: 40.h,
+                      margin: EdgeInsets.only(right: 10.w),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Stack(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.w),
+                            child: Center(
+                              child: Text(
+                                e.serialNo,
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const Positioned(
+                            right: 0,
+                            child: Icon(
+                              Icons.clear,
+                              size: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).followedBy([
+                  InkWell(
+                    // onTap: () => setState(() {
+                    //   widget.pItem.serialNoList.add('LM0001');
+                    // }),
+                    onTap: () => Get.defaultDialog(
+                      title: '',
+                      titlePadding: EdgeInsets.zero,
+                      contentPadding: EdgeInsets.zero,
+                      backgroundColor: Colors.transparent,
+                      content: ProductSlNoDialog(
+                        slNoList: widget.pItem.slNos,
+                        onSelectFn: (value) => setState(() {
+                          if (!widget.pItem.selectedSlNos.contains(value)) {
+                            widget.pItem.selectedSlNos.add(value);
+                          } else {
+                            Future.delayed(
+                              const Duration(milliseconds: 400),
+                              () => Methods.showSnackbar(
+                                title: 'Serial Number already added!',
+                                msg:
+                                    'Please select another serial number of this product.',
+                              ),
+                            );
+                          }
+                        }),
+                      ),
+                    ),
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    child: widget.pItem.selectedSlNos.length < widget.pItem.qty
+                        ? Container(
+                            width: 50.w,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                            child: const Center(
+                              child: Icon(Icons.add),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                ]).toList(),
+              ),
+            ),
           ],
         ),
       ),

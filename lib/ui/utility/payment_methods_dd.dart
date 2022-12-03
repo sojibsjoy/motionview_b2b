@@ -22,7 +22,7 @@ class PaymentMethodsDD extends StatefulWidget {
 class _PaymentMethodsDDState extends State<PaymentMethodsDD> {
   final UtilityController _uCon = Get.find<UtilityController>();
   late final LoginModel _usrInfo;
-  PaymentMethod? _selectedMethods;
+  PaymentMethod? _selectedMethod;
   @override
   void initState() {
     _usrInfo = Preference.getUserDetails();
@@ -46,7 +46,7 @@ class _PaymentMethodsDDState extends State<PaymentMethodsDD> {
           );
         } else {
           return CustomDD(
-            givenValue: _selectedMethods,
+            givenValue: _selectedMethod,
             hintTxt: 'Select Methods',
             // ddWidth: 190.w,
             items: _uCon.pmModel!.data.map((e) {
@@ -56,8 +56,8 @@ class _PaymentMethodsDDState extends State<PaymentMethodsDD> {
               );
             }).toList(),
             onChangedFn: (value) => setState(() {
-              _selectedMethods = value;
-              widget.getMethods(_selectedMethods!);
+              _selectedMethod = value;
+              widget.getMethods(_selectedMethod!);
             }),
           );
         }

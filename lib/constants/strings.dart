@@ -20,6 +20,8 @@ class ConstantStrings {
   static String kDealerNewArrivalProducts = 'dealer/new-arrival-products';
   static String kDealerUpcomingProducts = 'dealer/upcomming-products';
   static String kDealerLedger = 'dealer/ledger-index';
+  static String kDealerPurchasedProducts = 'dealer/all-purchase-products';
+  static String kDealerSaleOutCreate = 'dealer/sale-out';
 
   // retailer APIs
   static String kRetailerLogin = 'retailer/login';
@@ -33,10 +35,13 @@ class ConstantStrings {
   static String kRetailerReturnOrders = 'retailer/return/order-view';
   static String kRetailerReturnProducts = 'retailer/return-products-view';
   static String kRetailerLiabilities = 'retailer/ledger/index';
-  static String kRetailerSaleOut = 'retailer/sale-report/index';
+  static String kRetailerSaleOutReport = 'retailer/sale-report/index';
+  static String kRetailerPurchasedProducts = 'retailer/all-purchase-products';
+  static String kRetailerSaleOutCreate = 'retailer/sale-order/create';
 
   // common APIs
   static String kPaymentMethods = 'payment-method';
+  static String kCustomerSearchByPhone = 'customer/search-by-phone';
 
   // error msgs
   static String kWentWrong = 'Something went wrong';

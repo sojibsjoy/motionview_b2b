@@ -56,7 +56,7 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
               onTapFn: (value) => setState(
                 () {
                   _selectedBtnIndex = value;
-                  if (_selectedBtnIndex != 0) {
+                  if (_selectedBtnIndex != 0 && _selectedBtnIndex != 4) {
                     _purchaseCon.getAllOrders(
                       token: _usrInfo.data.token,
                       dealerFlag: _dealerFlag,

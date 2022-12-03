@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dogventurehq/states/models/customer.dart';
 import 'package:dogventurehq/states/models/payment_methods.dart';
 import 'package:dogventurehq/states/models/product.dart';
 import 'package:dogventurehq/states/services/utility.dart';
@@ -8,9 +9,11 @@ import 'package:get/state_manager.dart';
 class UtilityController extends GetxController {
   RxBool pmLoading = true.obs;
   RxBool productsLoading = true.obs;
+  RxBool cutomersLoading = true.obs;
 
   PaymentMethods? pmModel;
   ProductsModel? productsModel;
+  CustomersModel? customersModel;
 
   void getAllProducts({
     required String token,
@@ -47,6 +50,25 @@ class UtilityController extends GetxController {
       // }
     } finally {
       pmLoading(false);
+    }
+  }
+
+  void getCustomerList({
+    required String usrToken,
+    required String searchKeywords,
+  }) async {
+    cutomersLoading(true);
+    try {
+      var response = await UtilityService.getCustomerList(
+        token: usrToken,
+        sKeyword: searchKeywords,
+      );
+      customersModel = customersModelFromJson(jsonEncode(response));
+      if (customersModel != null) {
+        print(customersModel!.customerList.length);
+      }
+    } finally {
+      cutomersLoading(false);
     }
   }
 }

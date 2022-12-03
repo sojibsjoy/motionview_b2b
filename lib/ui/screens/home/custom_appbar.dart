@@ -11,12 +11,14 @@ class CustomAppbar extends StatelessWidget {
   bool? noMargin;
   Widget? logo;
   Widget? suffixWidget;
+  VoidCallback? backBtnFn;
   CustomAppbar({
     Key? key,
     this.title,
     this.logo,
     this.suffixWidget,
     this.noMargin,
+    this.backBtnFn,
   }) : super(key: key);
 
   @override
@@ -53,7 +55,7 @@ class CustomAppbar extends StatelessWidget {
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onTap: ZoomDrawer.of(context) == null
-                      ? () => Get.back()
+                      ? backBtnFn ?? () => Get.back()
                       : () => ZoomDrawer.of(context)!.toggle(),
                   child: ZoomDrawer.of(context) == null
                       ? const Icon(
