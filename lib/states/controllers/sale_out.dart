@@ -10,6 +10,7 @@ class SaleOutController extends GetxController {
   RxBool soReportLoading = true.obs; // sale out reporting loading
   RxBool ppLoading = true.obs; // purchased products loading
   RxBool soCreateLoading = true.obs; // sale out create loading
+  bool soCreatedFlag = false;
 
   SaleOutReports? saleOutReports;
   PurchasedProductsModel? pProductsModel;
@@ -55,7 +56,7 @@ class SaleOutController extends GetxController {
   void saleOutCreate({
     required String token,
     required bool dealerFlag,
-    required Map<String, dynamic> payload,
+    required dynamic payload,
   }) async {
     soCreateLoading(true);
     Methods.showLoading();
@@ -66,6 +67,7 @@ class SaleOutController extends GetxController {
         pBody: payload,
       );
       print(response.toString());
+      soCreatedFlag = response["success"];
       // pProductsModel = purchasedProductsModelFromJson(jsonEncode(response));
       // if (pProductsModel != null) {
       // print(pProductsModel!.purchasedProducts.length);

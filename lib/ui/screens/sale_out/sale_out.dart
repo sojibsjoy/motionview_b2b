@@ -5,9 +5,11 @@ import 'package:dogventurehq/states/models/customer.dart';
 import 'package:dogventurehq/states/models/login.dart';
 import 'package:dogventurehq/states/models/payment_methods.dart';
 import 'package:dogventurehq/states/models/purchased_product.dart';
+import 'package:dogventurehq/states/models/so_create.dart';
 import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:dogventurehq/ui/designs/custom_field.dart';
+import 'package:dogventurehq/ui/screens/drawer.dart';
 import 'package:dogventurehq/ui/screens/home/custom_appbar.dart';
 import 'package:dogventurehq/ui/screens/sale_out/btm_navbar.dart';
 import 'package:dogventurehq/ui/screens/sale_out/con_info_row.dart';
@@ -67,6 +69,12 @@ class _SaleOutScreenState extends State<SaleOutScreen> {
       token: _usrInfo.data.token,
       dealerFlag: _dealerFlag,
     );
+
+    _soCon.soCreateLoading.listen((value) {
+      if (!value && _soCon.soCreatedFlag) {
+        Get.offAllNamed(DrawerSetup.routeName);
+      }
+    });
     super.initState();
   }
 
@@ -184,6 +192,7 @@ class _SaleOutScreenState extends State<SaleOutScreen> {
                   );
                   return;
                 }
+                List<Product> postProducts = List.empty(growable: true);
                 for (int i = 0; i < _selectedProducts.length; i++) {
                   if (_selectedProducts[i].name.startsWith('Select Product')) {
                     Methods.showSnackbar(
@@ -199,26 +208,36 @@ class _SaleOutScreenState extends State<SaleOutScreen> {
                     );
                     return;
                   }
-                  bodyData.addEntries(
-                    {
-                      "product[$i][id]": _selectedProducts[i].id,
-                      "product[$i][quantity]": _selectedProducts[i].qty,
-                      "product[$i][selling_price]":
-                          _selectedProducts[i].mrpPrice,
-                    }.entries,
-                  );
+                  List<int> slNos = List.empty(growable: true);
+                  // bodyData.addEntries(
+                  //   {
+                  //     "product[$i][id]": _selectedProducts[i].id,
+                  //     "product[$i][quantity]": _selectedProducts[i].qty,
+                  //     "product[$i][selling_price]":
+                  //         _selectedProducts[i].mrpPrice,
+                  //   }.entries,
+                  // );
                   if (_selectedProducts[i].selectedSlNos.isNotEmpty) {
                     for (int j = 0;
                         j < _selectedProducts[i].selectedSlNos.length;
                         j++) {
-                      bodyData.addEntries(
-                        {
-                          "product[$i][sn_no][$j]":
-                              _selectedProducts[i].selectedSlNos[j].serialNo,
-                        }.entries,
-                      );
+                      slNos.add(_selectedProducts[i].selectedSlNos[j].id);
+                      // bodyData.addEntries(
+                      //   {
+                      //     "product[$i][sn_no][$j]":
+                      //         _selectedProducts[i].selectedSlNos[j].id,
+                      //   }.entries,
+                      // );
                     }
                   }
+                  postProducts.add(
+                    Product(
+                      id: _selectedProducts[i].id,
+                      quantity: _selectedProducts[i].qty,
+                      sellingPrice: _selectedProducts[i].mrpPrice,
+                      snNo: slNos,
+                    ),
+                  );
                 }
                 bodyData.addEntries(
                   {
@@ -230,10 +249,21 @@ class _SaleOutScreenState extends State<SaleOutScreen> {
                   }.entries,
                 );
                 // print(bodyData.toString());
+                SaleoutCreateModel postModel = SaleoutCreateModel(
+                  customerName: _cNameCon.text,
+                  customerAddress: _cAddCon.text,
+                  customerPhone: _cMobileNo,
+                  product: postProducts,
+                  discount: _discountAmount,
+                  paymentType: _selectedPaymentMethod!.id,
+                  remarks: _remarksCon.text,
+                  isFormApp: 1,
+                  paid: 0,
+                );
                 _soCon.saleOutCreate(
                   token: _usrInfo.data.token,
                   dealerFlag: _dealerFlag,
-                  payload: bodyData,
+                  payload: postModel.toJson(),
                 );
               },
             )
@@ -385,6 +415,7 @@ class _SaleOutScreenState extends State<SaleOutScreen> {
                               _selectedCustomer = value;
                               _cNameCon.text = _selectedCustomer!.name;
                               _cAddCon.text = _selectedCustomer!.address;
+                              _cMobileNo = _selectedCustomer!.phone;
                             }),
                             inputNo: (value) => setState(() {
                               _cMobileNo = value;
