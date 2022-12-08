@@ -159,7 +159,6 @@ class _ReturnManagementScreenState extends State<ReturnManagementScreen> {
               return Text(ConstantStrings.kNoData);
             } else {
               return StatementSheet(
-                rCon: _rCon,
                 statementTitleList: _purchaseStatementTitles,
                 bodyWidget: ListView.builder(
                   itemCount: _rCon.rOrdersModel!.data.length,
@@ -199,7 +198,6 @@ class _ReturnManagementScreenState extends State<ReturnManagementScreen> {
               return Text(ConstantStrings.kNoData);
             } else {
               return StatementSheet(
-                rCon: _rCon,
                 statementTitleList: _returnedProductsTitles,
                 flxIndexNo: 1,
                 flx: 3,

@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:dogventurehq/states/models/purchased_product.dart';
-import 'package:dogventurehq/states/models/saleout_report.dart';
+import 'package:dogventurehq/states/models/sale_out/saleout_report.dart';
+import 'package:dogventurehq/states/models/sale_out/sold_campaign.dart';
 import 'package:dogventurehq/states/services/sale_out.dart';
 import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:get/state_manager.dart';
@@ -9,10 +10,12 @@ import 'package:get/state_manager.dart';
 class SaleOutController extends GetxController {
   RxBool soReportLoading = true.obs; // sale out reporting loading
   RxBool ppLoading = true.obs; // purchased products loading
+  RxBool scLoading = true.obs; // sale out create loading
   RxBool soCreateLoading = true.obs; // sale out create loading
   bool soCreatedFlag = false;
 
   SaleOutReports? saleOutReports;
+  SoldCampaignsModel? soldCampaignsModel;
   PurchasedProductsModel? pProductsModel;
 
   void getSaleOutReports({
@@ -31,6 +34,25 @@ class SaleOutController extends GetxController {
       }
     } finally {
       soReportLoading(false);
+    }
+  }
+
+  void getSoldCampaigns({
+    required String token,
+    required bool dealerFlag,
+  }) async {
+    scLoading(true);
+    try {
+      var response = await SaleOutService.getSoldCampaigs(
+        usrToken: token,
+        dFlag: dealerFlag,
+      );
+      soldCampaignsModel = soldCampaignsModelFromJson(jsonEncode(response));
+      if (soldCampaignsModel != null) {
+        print(soldCampaignsModel!.soldCampaigns.length);
+      }
+    } finally {
+      scLoading(false);
     }
   }
 

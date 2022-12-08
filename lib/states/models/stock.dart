@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final eolModel = eolModelFromJson(jsonString);
-
 import 'dart:convert';
 
 StocksModel stocksModelFromJson(String str) =>

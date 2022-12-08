@@ -1,4 +1,5 @@
 import 'package:dogventurehq/states/bindings/auth.dart';
+import 'package:dogventurehq/states/bindings/campaign.dart';
 import 'package:dogventurehq/states/bindings/initial.dart';
 import 'package:dogventurehq/states/bindings/ledger.dart';
 import 'package:dogventurehq/states/bindings/product.dart';
@@ -92,6 +93,7 @@ class AllRoutes {
     GetPage(
       name: CampaignScreen.routeName,
       page: () => CampaignScreen(),
+      binding: CampaignBinding(),
     ),
     GetPage(
       name: CampaignDetails.routeName,

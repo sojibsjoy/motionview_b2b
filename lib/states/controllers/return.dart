@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:dogventurehq/states/models/return_order.dart';
-import 'package:dogventurehq/states/models/return_product.dart';
+import 'package:dogventurehq/states/models/return/return_order.dart';
+import 'package:dogventurehq/states/models/return/return_product.dart';
 import 'package:dogventurehq/states/services/return.dart';
 import 'package:get/state_manager.dart';
 

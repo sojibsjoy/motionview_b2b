@@ -22,6 +22,9 @@ class ConstantStrings {
   static String kDealerLedger = 'dealer/ledger-index';
   static String kDealerPurchasedProducts = 'dealer/all-purchase-products';
   static String kDealerSaleOutCreate = 'dealer/sale-out';
+  static String kDealerSoldCampaigns = 'dealer/dealer-campaign-saleout-details';
+  static String kDealerCampaignList = 'dealer/campaign-list';
+  static String kDealerSubCampaignList = 'dealer/sub-campaign-list';
 
   // retailer APIs
   static String kRetailerLogin = 'retailer/login';
@@ -38,10 +41,21 @@ class ConstantStrings {
   static String kRetailerSaleOutReport = 'retailer/sale-report/index';
   static String kRetailerPurchasedProducts = 'retailer/all-purchase-products';
   static String kRetailerSaleOutCreate = 'retailer/sale-order/create';
+  static String kRetailerSoldCampaigns =
+      'retailer/retailer-campaign-saleout-details';
+  static String kRetailerCampaignList = 'retailer/retailer-campaign-list';
+  static String kRetailerSaleOutCampaignList = 'retailer/retailer-saleout-list';
 
   // common APIs
   static String kPaymentMethods = 'payment-method';
   static String kCustomerSearchByPhone = 'customer/search-by-phone';
+
+  // prefix links
+  static String kCampaignPrefix =
+      'https://b2b.motionview.com.bd/storage/images/campagin/banner/';
+
+  static String tCamBnrPrefix =
+      'https://b2b.motionview.com.bd/storage/images/campaign/banner/';
 
   // error msgs
   static String kWentWrong = 'Something went wrong';

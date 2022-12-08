@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dogventurehq/states/models/customer.dart';
-import 'package:dogventurehq/states/models/payment_methods.dart';
+import 'package:dogventurehq/states/models/utility/payment_methods.dart';
 import 'package:dogventurehq/states/models/product.dart';
 import 'package:dogventurehq/states/services/utility.dart';
 import 'package:get/state_manager.dart';

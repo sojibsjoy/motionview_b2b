@@ -3,9 +3,9 @@ import 'package:dogventurehq/states/controllers/sale_out.dart';
 import 'package:dogventurehq/states/data/prefs.dart';
 import 'package:dogventurehq/states/models/customer.dart';
 import 'package:dogventurehq/states/models/login.dart';
-import 'package:dogventurehq/states/models/payment_methods.dart';
+import 'package:dogventurehq/states/models/utility/payment_methods.dart';
 import 'package:dogventurehq/states/models/purchased_product.dart';
-import 'package:dogventurehq/states/models/so_create.dart';
+import 'package:dogventurehq/states/models/sale_out/so_create.dart';
 import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:dogventurehq/ui/designs/custom_field.dart';
@@ -14,6 +14,7 @@ import 'package:dogventurehq/ui/screens/home/custom_appbar.dart';
 import 'package:dogventurehq/ui/screens/sale_out/btm_navbar.dart';
 import 'package:dogventurehq/ui/screens/sale_out/con_info_row.dart';
 import 'package:dogventurehq/ui/screens/sale_out/sales_history_item.dart';
+import 'package:dogventurehq/ui/screens/sale_out/sold_campaign_item.dart';
 import 'package:dogventurehq/ui/screens/warranty/field_title.dart';
 import 'package:dogventurehq/ui/utility/customer_search_field.dart';
 import 'package:dogventurehq/ui/utility/payment_methods_dd.dart';
@@ -101,23 +102,37 @@ class _SaleOutScreenState extends State<SaleOutScreen> {
                       itemList: _btnTxts,
                       onTapFn: (value) => setState(() {
                         _selectedBtnIndex = value;
-                        if (value == 0) {
-                          _totalQty = 0;
-                          _totalAmount = 0;
-                          _discountAmount = 0;
-                          _paidAmount = 0;
-                          _nextFlag = false;
-                          _selectedProducts.clear();
-                          _soCon.getAllPurchasedProducts(
-                            token: _usrInfo.data.token,
-                            dealerFlag: _dealerFlag,
-                          );
-                        }
-                        if (value == 1) {
-                          _soCon.getSaleOutReports(
-                            token: _usrInfo.data.token,
-                            dealerFlag: _dealerFlag,
-                          );
+                        switch (value) {
+                          case 0:
+                            _selectedCustomer = null;
+                            _selectedPaymentMethod = null;
+                            _cNameCon.clear();
+                            _cMobileNo = '';
+                            _cAddCon.clear();
+                            _totalQty = 0;
+                            _totalAmount = 0;
+                            _discountAmount = 0;
+                            _paidAmount = 0;
+                            _nextFlag = false;
+                            _selectedProducts.clear();
+                            _soCon.getAllPurchasedProducts(
+                              token: _usrInfo.data.token,
+                              dealerFlag: _dealerFlag,
+                            );
+                            break;
+                          case 1:
+                            _soCon.getSaleOutReports(
+                              token: _usrInfo.data.token,
+                              dealerFlag: _dealerFlag,
+                            );
+                            break;
+                          case 2:
+                            _soCon.getSoldCampaigns(
+                              token: _usrInfo.data.token,
+                              dealerFlag: _dealerFlag,
+                            );
+                            break;
+                          default:
                         }
                       }),
                     ),
@@ -147,7 +162,7 @@ class _SaleOutScreenState extends State<SaleOutScreen> {
                 ),
               ),
             ),
-            if (!_nextFlag)
+            if (!_nextFlag && _selectedBtnIndex == 0)
               CustomBtn(
                 onPressedFn: () => setState(() {
                   if (_selectedCustomer == null &&
@@ -483,10 +498,36 @@ class _SaleOutScreenState extends State<SaleOutScreen> {
             }
           }
         });
+      case 2:
+        return Obx(() {
+          if (_soCon.scLoading.value) {
+            return Padding(
+              padding: EdgeInsets.only(top: 300.h),
+              child: const CircularProgressIndicator(),
+            );
+          } else {
+            if (_soCon.soldCampaignsModel == null ||
+                _soCon.soldCampaignsModel!.soldCampaigns.isEmpty) {
+              return Padding(
+                padding: EdgeInsets.only(top: 300.h),
+                child: Text(ConstantStrings.kNoData),
+              );
+            } else {
+              return ListView.builder(
+                primary: false,
+                shrinkWrap: true,
+                itemCount: _soCon.soldCampaignsModel!.soldCampaigns.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return SoldCampaignItem(
+                    scModel: _soCon.soldCampaignsModel!.soldCampaigns[index],
+                  );
+                },
+              );
+            }
+          }
+        });
       default:
-        return Text(
-          ConstantStrings.kWentWrong,
-        );
+        return Text(ConstantStrings.kWentWrong);
     }
   }
 }

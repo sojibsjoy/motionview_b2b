@@ -1,7 +1,7 @@
 import 'package:dogventurehq/states/controllers/utility.dart';
 import 'package:dogventurehq/states/data/prefs.dart';
 import 'package:dogventurehq/states/models/login.dart';
-import 'package:dogventurehq/states/models/payment_methods.dart';
+import 'package:dogventurehq/states/models/utility/payment_methods.dart';
 import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:dogventurehq/ui/designs/custom_dd.dart';
 import 'package:dogventurehq/ui/screens/purchase/dropdown_design.dart';

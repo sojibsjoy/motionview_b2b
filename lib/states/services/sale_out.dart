@@ -28,6 +28,19 @@ class SaleOutService {
     return response;
   }
 
+  static Future<dynamic> getSoldCampaigs({
+    required String usrToken,
+    required bool dFlag,
+  }) async {
+    var response = await BaseClient.getData(
+      api: dFlag
+          ? ConstantStrings.kDealerSoldCampaigns
+          : ConstantStrings.kRetailerSoldCampaigns,
+      token: usrToken,
+    );
+    return response;
+  }
+
   static Future<dynamic> saleOutCreate({
     required String usrToken,
     required bool dFlag,

@@ -8,14 +8,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class StatementSheet extends StatelessWidget {
-  final ReturnController rCon;
   final Widget bodyWidget;
   final List<String> statementTitleList;
   int? flxIndexNo;
   int? flx;
   StatementSheet({
     Key? key,
-    required this.rCon,
     required this.bodyWidget,
     required this.statementTitleList,
     this.flxIndexNo,

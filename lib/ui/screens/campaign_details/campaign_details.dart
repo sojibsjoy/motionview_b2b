@@ -1,11 +1,12 @@
-import 'package:dogventurehq/ui/designs/custom_btn.dart';
+import 'package:dogventurehq/states/controllers/campaign.dart';
+import 'package:dogventurehq/states/data/prefs.dart';
+import 'package:dogventurehq/states/models/campaign/campaing.dart';
+import 'package:dogventurehq/states/models/login.dart';
 import 'package:dogventurehq/ui/screens/campaign_details/details_body.dart';
 import 'package:dogventurehq/ui/screens/campaign_details/product_wise_campaign.dart';
 import 'package:dogventurehq/ui/screens/home/custom_appbar.dart';
-import 'package:dogventurehq/ui/widgets/helper.dart';
-import 'package:dogventurehq/ui/widgets/row_btn.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CampaignDetails extends StatefulWidget {
   static String routeName = '/campaign_details';
@@ -16,30 +17,37 @@ class CampaignDetails extends StatefulWidget {
 }
 
 class _CampaignDetailsState extends State<CampaignDetails> {
-  final List<String> _btnTxts = [
-    'Normal Campaign',
-    'Bundle Campaign',
-    'Combo Campaign',
-    'Saleout Campaign',
-    'Image Campaign',
-  ];
-  int _selectedBtnIndex = 0;
+  final CampaignController _cCon = Get.find<CampaignController>();
+  late CampaignModel _camModel;
+
+  late LoginModel _usrInfo;
+  bool _dealerFlag = false;
+
+  @override
+  void initState() {
+    _usrInfo = Preference.getUserDetails();
+    _dealerFlag = Preference.getDealerFlag();
+    _camModel = Get.arguments;
+
+    _cCon.getCampaignDetails(
+      token: _usrInfo.data.token,
+      dealerFlag: _dealerFlag,
+      campaignID: _camModel.id,
+    );
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade200,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // appbar
-            CustomAppbar(title: 'Campaign Details'),
-            // btn list
-            RowItem(
-              itemList: _btnTxts,
-              onTapFn: (value) => setState(() => _selectedBtnIndex = value),
-            ),
-            addH(10.h),
+            CustomAppbar(title: _camModel.name),
             // details
             getBodyView(),
           ],
@@ -49,51 +57,38 @@ class _CampaignDetailsState extends State<CampaignDetails> {
   }
 
   Widget getBodyView() {
-    switch (_selectedBtnIndex) {
-      case 0:
-        return const DetailsBody();
-      case 1:
-        return ProductWiseCampaign(
-          campaignTitle: 'Bundle Offer',
-          selectedBtnIndex: _selectedBtnIndex,
+    switch (_camModel.id) {
+      case 1: // invoice
+      case 2: // charger & cable
+        return DetailsBody(
+          camID: _camModel.id,
         );
-      case 2:
-        return ProductWiseCampaign(
-          campaignTitle: 'Combo Offer',
-          selectedBtnIndex: _selectedBtnIndex,
-        );
-      case 3:
-        return ProductWiseCampaign(
-          campaignTitle: 'Saleout Offer',
-          selectedBtnIndex: _selectedBtnIndex,
+      case 3: // tv-monitor-laptop
+        return DetailsBody(
+          camID: _camModel.id,
         );
       case 4:
-        return Stack(
-          alignment: AlignmentDirectional.bottomCenter,
-          children: [
-            Container(
-              width: double.infinity,
-              height: 708.h,
-              color: Colors.pink,
-              child: Image.asset(
-                'assets/imgs/img_campaign.png',
-                fit: BoxFit.fill,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 10.h),
-              child: CustomBtn(
-                onPressedFn: () {},
-                btnTxt: 'Order Now',
-                btnColor: Colors.black,
-                btnBroderRadius: 10.r,
-                txtSize: 20.sp,
-              ),
-            ),
-          ],
+        return ProductWiseCampaign(
+          campaignTitle: 'Combo Campaign',
+          camID: _camModel.id,
+          dFlag: _dealerFlag,
+        );
+      case 5:
+        return ProductWiseCampaign(
+          campaignTitle: 'Bundle Campaign',
+          camID: _camModel.id,
+          dFlag: _dealerFlag,
+        );
+      case 6:
+        return ProductWiseCampaign(
+          campaignTitle: 'Saleout Campaign',
+          camID: _camModel.id,
+          dFlag: _dealerFlag,
         );
       default:
-        return const DetailsBody();
+        return DetailsBody(
+          camID: _camModel.id,
+        );
     }
   }
 }

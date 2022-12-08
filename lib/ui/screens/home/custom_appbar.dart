@@ -32,6 +32,7 @@ class CustomAppbar extends StatelessWidget {
       margin:
           noMargin != null ? EdgeInsets.zero : EdgeInsets.only(bottom: 10.h),
       decoration: BoxDecoration(
+        color: Colors.white,
         border: Border(
           bottom: BorderSide(
             color: Colors.grey.shade300,

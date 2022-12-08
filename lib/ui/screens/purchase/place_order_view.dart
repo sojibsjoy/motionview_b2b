@@ -1,6 +1,6 @@
 import 'package:dogventurehq/constants/colors.dart';
 import 'package:dogventurehq/states/controllers/purchase.dart';
-import 'package:dogventurehq/states/models/payment_methods.dart';
+import 'package:dogventurehq/states/models/utility/payment_methods.dart';
 import 'package:dogventurehq/ui/designs/custom_field.dart';
 import 'package:dogventurehq/ui/screens/purchase/dropdown_design.dart';
 import 'package:dogventurehq/ui/utility/payment_methods_dd.dart';

@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dogventurehq/states/utils/methods.dart';
-import 'package:dogventurehq/ui/designs/custom_img.dart';
 import 'package:dogventurehq/ui/screens/products/product_price.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
@@ -53,12 +52,14 @@ class ProductItem extends StatelessWidget {
             height: 60.h,
             margin: EdgeInsets.only(right: 10.w),
             decoration: BoxDecoration(
-              color: Colors.amber,
+              color: Colors.amber.shade800,
               borderRadius: BorderRadius.circular(5.r),
             ),
-            child: Center(
-              child: CustomImg(
-                imgUrl: pImg,
+            child: Text(
+              pName.substring(0, 2),
+              style: TextStyle(
+                fontSize: 40.sp,
+                color: Colors.white,
               ),
             ),
           ),
